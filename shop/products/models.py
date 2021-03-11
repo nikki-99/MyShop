@@ -13,7 +13,7 @@ class Addproduct(db.Model):
     pub_date = db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
     
 
-    brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'),nullable=False)
+    brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
     brand = db.relationship('Brand',backref=db.backref('brands', lazy=True))
 
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'),nullable=False)
@@ -28,7 +28,7 @@ class Addproduct(db.Model):
 
 
 class Brand(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True,autoincrement = True)
     name = db.Column(db.String(50), nullable=False, unique=True)
 
 

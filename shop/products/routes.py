@@ -22,7 +22,7 @@ def addbrand():
 
     return render_template('products/addbrand.html', brands = 'brands')
  
-@app.route('/updatebarnd/<int:id>', methods=['GET','POST'])
+@app.route('/updatebrand/<int:id>', methods=['GET','POST'])
 def updatebrand(id):
     if 'email' not in session:
         flash(f'Login first','danger')
@@ -95,3 +95,37 @@ def addproduct():
         flash(f'The product { name } has been added!','success')
         return redirect(url_for('admin'))
     return render_template('products/addproduct.html', form = form, title = 'Add Product', brands = brands, categories= categories)
+
+
+
+@app.route('/updateproduct/<int:id>', methods =['GET','POST'])    
+def updateproduct(id):
+    brands = Brand.query.all()
+    categories = Category.query.all()
+    product = Addproduct.query.get_or_404(id)
+    brand = request.form.get('brand')
+    category = request.form.get('category')
+    
+    form = Addproducts()
+    if request.method =='POST':
+        product.name = form.name.data
+        product.price = form.price.data
+        product.discount = form.discount.data
+        product.stock = form.stock.data
+        
+        product.brand_id = brand
+        product.category_id = category
+        product.colors = form.colors.data
+        product.description = form.description.data
+        db.session.commit()
+        flash(f'Your product has been updated','success')
+        return redirect(url_for('admin'))
+
+    form.name.data = product.name
+    form.price.data = product.price
+    form.discount.data = product.discount
+    form.stock.data = product.stock
+    
+    form.colors.data= product.colors
+    form.description.data=product.description
+    return render_template('products/updateproduct.html', form = form, brands=brands, categories= categories, product = product)
