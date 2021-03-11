@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+{% include '_messages.html' %}
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{{url_for('admin')}}">Admin</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{url_for('admin')}}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('brands')}}">Brands</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('category')}}">Categories</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown link
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+</div>
+<div class="conatiner mt-5 ml-3">
+
+    <table class="table table-sm table-condensed table-striped ">
+        <thead>
+            <th>No</th>
+            <th>Name</th>
+          
+          
+            <th>Edit</th>
+            <th>Delete</th>
+        </thead>
+        <tbody>
+            {% if brands %}
+            {% for brand in brands %}
+          <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{brand.name}}</td>
+              
+
+              <td><a href="{{url_for('updatebrand', id = brand.id)}}" class="btn btn-sm btn-outline-info">Edit</a></td>
+              <td><a href="" class="btn btn-sm btn-outline-danger">Delete</a></td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          
+      
+          {% for category in categories %}
+          <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{category.name}}</td>
+              
+
+              <td><a href="{{url_for('updatecat', id = category.id)}}" class="btn btn-sm btn-outline-info">Edit</a></td>
+              <td><a href="" class="btn btn-sm btn-outline-danger">Delete</a></td>
+          </tr>
+          {% endfor %}
+
+
+    
+      
+
+
+          {% endif %}
+
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

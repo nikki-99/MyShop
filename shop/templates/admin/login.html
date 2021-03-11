@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="conatiner">
+
+{% from "_formhelpers.html" import render_field %}
+{% include '_messages.html' %}
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+  <div class="form-group" style="width: 45%;position: absolute; left: 28%; top: 17%;">
+    
+    <div class="text-center h1 text-danger">Login</div>
+    {{ render_field(form.email, class="form-control") }}
+    {{ render_field(form.password, class="form-control") }}
+   
+    
+  
+  <p><input type=submit value="Login" class="btn btn-info"></p>
+</div>
+</form>
+</div>
+{% endblock %}
