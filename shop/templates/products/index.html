@@ -1,47 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" style="color: white;">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ url_for('home')}}" style="color: white;">Products</a>
-              </li>
-             
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
-                  Brands
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for brand in brands %}
-         <a class="dropdown-item" href="{{ url_for('get_brand', id = brand.id)}}">{{ brand.name }}</a>
-         {% endfor %}
-                </ul>
-              </li>
-             
-
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
-                  Categories
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for category in categories %}
-         <a class="dropdown-item" href="{{ url_for('get_cat', id = category.id)}}">{{ category.name }}</a>
-         {% endfor %}
-                </ul>
-              </li>
-              
-            </ul>
-           
-          </div>
-        </div>
-      </nav>
-</div>
+{% include 'navbar.html' %}
 
 <div class="conatiner">
     <div class="row">
@@ -59,8 +18,16 @@
                     <p class="text-center">Price Rs-{{ bro.price}}</p>
                     <div class="card-footer">
                         <a href="{{url_for('description', id = bro.id)}}" class="float-left btn btn-sm btn-info">Details</a>
-                        <a href="#" class="float-right btn btn-sm btn-warning" style="position: absolute;
-    right: 10%;">Add to Cart</a>
+    
+    <form action="{{ url_for('addcart')}}" method="POST">
+      <input type="hidden" name="product_id" value="{{ bro.id }}">
+      <button type="submit"class=" btn btn-sm btn-warning float-right" style="position: absolute;
+      top: 82%;
+      left: 60%;">Add Cart</button>
+      
+      <input type="hidden" name="quantity" value="1" min="1" >          
+      </form>
+               
                     </div>
                 </div>
             </div>
@@ -124,8 +91,16 @@
                     <p class="text-center">Price Rs-{{ cat.price}}</p>
                     <div class="card-footer">
                         <a href="{{url_for('description', id = cat.id)}}" class="float-left btn btn-sm btn-info">Details</a>
-                        <a href="#" class="float-right btn btn-sm btn-warning" style="position: absolute;
-    right: 10%;">Add to Cart</a>
+                    
+    <form action="{{ url_for('addcart')}}" method="POST">
+      <input type="hidden" name="product_id" value="{{ cat.id }}">
+      <button type="submit"class=" btn btn-sm btn-warning float-right" style="position: absolute;
+      top: 82%;
+      left: 60%;" >Add Cart</button>
+      
+      <input type="hidden" name="quantity" value="1" min="1" >          
+      </form>
+               
                     </div>
                 </div>
             </div>
@@ -190,8 +165,17 @@
                     <p class="text-center">Price Rs-{{ product.price}}</p>
                     <div class="card-footer">
                         <a href="{{url_for('description', id = product.id)}}" class="float-left btn btn-sm btn-info">Details</a>
-                        <a href="#" class="float-right btn btn-sm btn-warning" style="position: absolute;
-    right: 10%;">Add to Cart</a>
+    
+    
+    <form action="{{ url_for('addcart')}}" method="POST">
+      <input type="hidden" name="product_id" value="{{ product.id }}">
+      <button type="submit"class=" float-right btn btn-sm btn-warning" style="position: absolute;
+      top: 82%;
+      left: 60%;">Add Cart</button>
+      
+      <input type="hidden" name="quantity" value="1" min="1" max="{{ product.stock }}" >          
+      </form>
+               
                     </div>
                 </div>
             </div>

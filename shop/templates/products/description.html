@@ -37,7 +37,7 @@
               </li>
 
               <li class="nav-item">
-                  <a class="nav-link active" style="color: white;" href="#" tabindex="-1">Cart ({{ session['shoppingcart']|length }})</a>
+                  <a class="nav-link active" style="color: white;" href="{{ url_for('allcart')}}" tabindex="-1">Cart ({{ session['shoppingcart']|length }})</a>
               </li>
               
             </ul>
@@ -57,10 +57,12 @@
             <h4>Product name: {{ product.name }}</h4>
         <hr>
             <p>Product price: Rs.{{product.price}}</p>
+          
             {% if product.discount > 0 %}
             <p style="color: chocolate; text-shadow: 2px 2px 8px;">Discount: {{product.discount}} %</p>
             {% endif %}
             <b>Details</b>
+            <hr>
             <p>{{ product.description }}</p>
 
             <form action="{{ url_for('addcart')}}" method="POST">

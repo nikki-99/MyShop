@@ -1,0 +1,46 @@
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" style="color: white;">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ url_for('home')}}" style="color: white;">Products</a>
+              </li>
+             
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                  Brands
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for brand in brands %}
+         <a class="dropdown-item" href="{{ url_for('get_brand', id = brand.id)}}">{{ brand.name }}</a>
+         {% endfor %}
+                </ul>
+              </li>
+             
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                  Categories
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for category in categories %}
+         <a class="dropdown-item" href="{{ url_for('get_cat', id = category.id)}}">{{ category.name }}</a>
+         {% endfor %}
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" style="color: white;" href="{{ url_for('allcart')}}" tabindex="-1">Cart ({{ session['shoppingcart']|length }})</a>
+            </li>
+            
+              
+            </ul>
+           
+          </div>
+        </div>
+      </nav>
+</div>

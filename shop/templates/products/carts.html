@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<h3 class="text-center mt-3"> My Carts</h3>
+<div class="container mt-5">
+    <div class="row">
+        <table class="table table-sm table-condensed table-striped table-hover ">
+<thead>
+<th>No</th>
+<th>Image</th>
+<th>Name</th>
+
+<th>Price</th>
+<th>Discount</th>
+<th>Quantity</th>
+<th>Sub Total</th>
+<th>Update</th>
+<th>Delete</th>
+</thead>
+<tbody>
+
+    {% for key, product in session['shoppingcart'].items() %}
+    {% set val = ((product.discount/100) * product.price|float) %}
+    <tr>
+    <td>{{ loop.index }}</td>
+    <td><img src="{{ url_for('static', filename = 'images/' + product.image)}}"  height="45" width="50"></td>
+    <td>{{product.name}}</td>
+    
+    <td>Rs {{product.price}}</td>
+    {% if product.discount > 0 %}
+    <td>{{product.discount}} %</td>
+    {% else %}
+    <td></td>
+    {% endif %}
+    <form action="" method="POST">
+    <td><input type="number" value=" {{product.quantity }}" name="quantity" min="1" max="10"></td>
+
+    {% set subtotal = product.quantity|int * product.price|float %}
+    <td>{{((subtotal|float) - val|float )}}</td>
+
+
+   
+    <td><a class="btn btn-sm btn-outline-info">Update</a></td>
+</form>
+    <td><a class="btn btn-sm btn-warning">Delete</a></td>
+</tr>
+{% endfor %}
+<tr>
+    <td></td>
+    
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><h5 >Grand Total: </h5></td>
+    
+    <td> <b>{{ grandtotal }}</b></td>
+    
+    <td></td>
+</tr>
+
+</tbody>
+
+        </table>
+        <a href="/" class="btn btn-sm btn-outline-info" style="width: 12%;">Continue Shopping</a>
+        
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
