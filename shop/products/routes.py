@@ -1,8 +1,8 @@
-from flask import render_template, session, redirect, request, url_for, flash
+from flask import render_template, session, redirect, request, url_for, flash, current_app
 from shop import app, db, photos 
 from .models import Brand, Category,Addproduct
 from .forms import Addproducts
-import secrets
+import secrets, os
 
 
 
@@ -37,6 +37,19 @@ def updatebrand(id):
     return render_template('products/updatebrand.html',title = 'Update Brand', updatebrand = updatebrand)
 
 
+@app.route('/deletebrand/<int:id>', methods = ['POST'])
+def deletebrand(id):
+
+    brand = Brand.query.get_or_404(id)
+    if request.method == 'POST':
+        db.session.delete(brand)
+        db.session.commit()
+        flash(f'The brand { brand.name} has been deleted','success')
+
+        return redirect(url_for('admin'))
+    flash(f'{brand.name} can not  be deleted','warning')   
+    return redirect(url_for('admin')) 
+
 
 @app.route('/addcat', methods=['GET','POST'])
 def addcat():
@@ -66,6 +79,20 @@ def updatecat(id):
         return redirect(url_for('category'))    
 
     return render_template('products/updatebrand.html',title = 'Update Category', updatecat = updatecat)
+
+
+@app.route('/deletecat/<int:id>', methods = ['POST'])
+def deletecat(id):
+
+    category = Category.query.get_or_404(id)
+    if request.method == 'POST':
+        db.session.delete(category)
+        db.session.commit()
+        flash(f'The category { category.name} has been deleted','success')
+
+        return redirect(url_for('admin'))
+    flash(f'{category.name} can not  be deleted','warning')   
+    return redirect(url_for('admin')) 
 
 
 @app.route('/addproduct', methods=['GET','POST'])
@@ -117,6 +144,24 @@ def updateproduct(id):
         product.category_id = category
         product.colors = form.colors.data
         product.description = form.description.data
+        if request.files.get('image_1'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/"+ product.image_1))
+                product.image_1 = iphotos.save(request.files.get('image_1'),name = secrets.token_hex(10)+ ".")
+            except:
+                product.image_1 = photos.save(request.files.get('image_1'),name = secrets.token_hex(10)+ ".")
+        if request.files.get('image_2'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/"+ product.image_2))
+                product.image_2 = iphotos.save(request.files.get('image_2'),name = secrets.token_hex(10)+ ".")
+            except:
+                product.image_2 = photos.save(request.files.get('image_2'),name = secrets.token_hex(10)+ ".")
+        if request.files.get('image_3'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/"+ product.image_3))
+                product.image_3 = iphotos.save(request.files.get('image_3'),name = secrets.token_hex(10)+ ".")
+            except:
+                product.image_3 = photos.save(request.files.get('image_3'),name = secrets.token_hex(10)+ ".")
         db.session.commit()
         flash(f'Your product has been updated','success')
         return redirect(url_for('admin'))
@@ -129,3 +174,30 @@ def updateproduct(id):
     form.colors.data= product.colors
     form.description.data=product.description
     return render_template('products/updateproduct.html', form = form, brands=brands, categories= categories, product = product)
+
+
+
+@app.route('/deleteproduct/<int:id>', methods = ['POST'])
+def deleteproduct(id):
+
+    product = Addproduct.query.get_or_404(id)
+    if request.method == 'POST':
+        if request.files.get('image_1'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/"+ product.image_1))
+ 
+                os.unlink(os.path.join(current_app.root_path, "static/images/"+ product.image_2))
+
+                os.unlink(os.path.join(current_app.root_path, "static/images/"+ product.image_3))
+            except Exception as e:
+                print(e)    
+
+        db.session.delete(product)
+        db.session.commit()
+        flash(f'The product { product.name} has been deleted','success')
+
+        return redirect(url_for('admin'))
+    flash(f'{product.name} can not  be deleted','warning')   
+    return redirect(url_for('admin')) 
+
+

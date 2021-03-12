@@ -52,7 +52,36 @@
               <td>{{product.category.name }}</td>
               <td><img src="{{ url_for('static', filename ='images/'+ product.image_1)}}" width="40" height="30"></td>
               <td><a href="{{ url_for('updateproduct',id = product.id)}}" class="btn btn-sm btn-outline-info">Edit</a></td>
-              <td><a href="{{ url_for('updateproduct',id = product.id)}}" class="btn btn-sm btn-outline-danger">Delete</a></td>
+
+              <td><button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ product.id }}">
+                Delete
+              </button></td>
+          </tr>
+
+          <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal-{{ product.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ product.name }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span class="text-danger">Are you sure? You want to delete {{ product.name }} product!</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-warning" data-bs-dismiss="modal">Cancel</button>
+        <form action="{{ url_for('deleteproduct', id = product.id)}}" method="POST">
+          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
           </tr>
           {% endfor %}
         </tbody>
