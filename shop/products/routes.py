@@ -6,6 +6,48 @@ import secrets, os
 
 
 
+@app.route('/')
+def home():
+    page = request.args.get('page',1,type = int)
+    products = Addproduct.query.filter(Addproduct.stock>0).paginate(page = page,per_page = 4)
+    #  brand whose any time doesn't exist no need to show
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+
+    return render_template('products/index.html', products = products, brands = brands,categories=categories)
+
+@app.route('/product/<int:id>')
+def description(id):
+    product = Addproduct.query.get_or_404(id)
+    return render_template('products/description.html', product = product)
+
+
+
+@app.route('/brand/<int:id>')
+def get_brand(id):
+    page = request.args.get('page',1,type = int)
+    page_brand = Brand.query.filter_by(id=id).first_or_404()
+    brand_pro = Addproduct.query.filter_by(brand = page_brand).paginate(page = page,per_page = 4)
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+
+    return render_template('products/index.html', brand_pro = brand_pro, brands = brands,categories=categories, page_brand= page_brand)   
+
+
+
+
+
+@app.route('/category/<int:id>')
+def get_cat(id):
+    page = request.args.get('page',1,type = int)
+    page_cat = Category.query.filter_by(id=id).first_or_404()
+    category_pro = Addproduct.query.filter_by(category= page_cat).paginate(page = page,per_page = 4)
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+    return render_template('products/index.html',category_pro = category_pro, categories=categories, brands = brands, page_cat = page_cat)
+
+
+
 
 @app.route('/addbrand', methods=['GET','POST'])
 def addbrand():
@@ -108,15 +150,17 @@ def addproduct():
         price = form.price.data
         discount = form.discount.data
         stock = form.stock.data
-        colors = form.colors.data
+       
         description = form.description.data
         # this two are not in the form 
         brand = request.form.get('brand')
         category = request.form.get('category')
         image_1 = photos.save(request.files.get('image_1'),name = secrets.token_hex(10)+ ".")
-        image_2=photos.save(request.files.get('image_2'),name = secrets.token_hex(10)+ ".")
-        image_3=photos.save(request.files.get('image_3'),name = secrets.token_hex(10)+ ".")
-        addproduct = Addproduct(name = name,price = price,discount = discount, stock = stock, colors=colors, description = description, brand_id = brand, category_id = category, image_1 = image_1, image_2=image_2, image_3=image_3)
+        image_2 = photos.save(request.files.get('image_2'),name = secrets.token_hex(10)+ ".")
+        image_3 = photos.save(request.files.get('image_3'),name = secrets.token_hex(10)+ ".")
+        image_4 = photos.save(request.files.get('image_4'),name = secrets.token_hex(10)+ ".")
+       
+        addproduct = Addproduct(name = name,price = price,discount = discount, stock = stock, description = description, brand_id = brand, category_id = category, image_1 = image_1, image_2=image_2,image_3 = image_3, image_4=image_4)
         db.session.add(addproduct)
         db.session.commit()
         flash(f'The product { name } has been added!','success')
@@ -142,7 +186,7 @@ def updateproduct(id):
         
         product.brand_id = brand
         product.category_id = category
-        product.colors = form.colors.data
+      
         product.description = form.description.data
         if request.files.get('image_1'):
             try:
@@ -162,6 +206,13 @@ def updateproduct(id):
                 product.image_3 = iphotos.save(request.files.get('image_3'),name = secrets.token_hex(10)+ ".")
             except:
                 product.image_3 = photos.save(request.files.get('image_3'),name = secrets.token_hex(10)+ ".")
+        if request.files.get('image_4'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/"+ product.image_4))
+                product.image_4 = iphotos.save(request.files.get('image_4'),name = secrets.token_hex(10)+ ".")
+            except:
+                product.image_4 = photos.save(request.files.get('image_4'),name = secrets.token_hex(10)+ ".")                                                
+        
         db.session.commit()
         flash(f'Your product has been updated','success')
         return redirect(url_for('admin'))
@@ -171,7 +222,7 @@ def updateproduct(id):
     form.discount.data = product.discount
     form.stock.data = product.stock
     
-    form.colors.data= product.colors
+  
     form.description.data=product.description
     return render_template('products/updateproduct.html', form = form, brands=brands, categories= categories, product = product)
 
@@ -185,10 +236,11 @@ def deleteproduct(id):
         if request.files.get('image_1'):
             try:
                 os.unlink(os.path.join(current_app.root_path, "static/images/"+ product.image_1))
- 
                 os.unlink(os.path.join(current_app.root_path, "static/images/"+ product.image_2))
-
                 os.unlink(os.path.join(current_app.root_path, "static/images/"+ product.image_3))
+                os.unlink(os.path.join(current_app.root_path, "static/images/"+ product.image_4))
+ 
+               
             except Exception as e:
                 print(e)    
 

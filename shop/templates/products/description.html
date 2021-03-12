@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" style="color: white;">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ url_for('home')}}" style="color: white;">Products</a>
+              </li>
+             
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                  Brands
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for brand in brands %}
+         <a class="dropdown-item" href="{{ url_for('get_brand', id = brand.id)}}">{{ brand.name }}</a>
+         {% endfor %}
+                </ul>
+              </li>
+             
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                  Categories
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for category in categories %}
+         <a class="dropdown-item" href="{{ url_for('get_cat', id = category.id)}}">{{ category.name }}</a>
+         {% endfor %}
+                </ul>
+              </li>
+
+              <li class="nav-item">
+                  <a class="nav-link active" style="color: white;" href="#" tabindex="-1">Cart ({{ session['shoppingcart']|length }})</a>
+              </li>
+              
+            </ul>
+           
+          </div>
+        </div>
+      </nav>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6" >
+            <img src="{{ url_for('static', filename = 'images/'+ product.image_1)}}"  width="400" height="350" id="big_image">
+        </div>
+   
+        <div class="col-md-6">
+            <h4>Product name: {{ product.name }}</h4>
+        <hr>
+            <p>Product price: Rs.{{product.price}}</p>
+            {% if product.discount > 0 %}
+            <p style="color: chocolate; text-shadow: 2px 2px 8px;">Discount: {{product.discount}} %</p>
+            {% endif %}
+            <b>Details</b>
+            <p>{{ product.description }}</p>
+
+            <form action="{{ url_for('addcart')}}" method="POST">
+<input type="hidden" name="product_id" value="{{ product.id }}">
+<button type="submit"class=" btn btn-sm btn-warning" >Add Cart</button>
+<label for="">Quantity: </label> 
+<input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" >          
+</form>
+            
+     
+           
+
+        </div>
+    </div>
+
+   <div class="row">
+    <div class="col-md-5 mt-4"   >
+        <img src="{{ url_for('static', filename = 'images/'+ product.image_1)}}" height="100" width="100" class="p-2" id="small_image">
+        <img src="{{ url_for('static', filename = 'images/'+ product.image_2)}}" height="100" width="100"class="p-2" id="small_image">
+        <img src="{{ url_for('static', filename = 'images/'+ product.image_3)}}" height="100" width="100"class="p-2" id="small_image">
+        <img src="{{ url_for('static', filename = 'images/'+ product.image_4)}}" height="100" width="100"class="p-2" id="small_image">
+    </div>
+  
+</div>
+</div>
+
+<script>
+    var big_image= document.getElementById("big_image");
+    var small_image = document.querySelectorAll("#small_image")
+
+    small_image.forEach((img, index)=>{
+        img.addEventListener('click',()=>{
+            big_image.src = img.src;
+        })
+    })
+   
+  
+
+</script>
+
+
+{% endblock %}
