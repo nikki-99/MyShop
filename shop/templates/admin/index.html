@@ -23,7 +23,14 @@
               </li>
             
             </ul>
+
           </div>
+          <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{ url_for('addproduct')}}" style="color: white;">Add Product</a>
+            </li>
+          
+            </ul>
         </div>
       </nav>
 </div>
@@ -35,6 +42,7 @@
             <th>Product</th>
             <th>Price</th>
             <th>Discount</th>
+            <th>Stock</th>
             <th>Brand</th>
             <th>Category</th>
             <th>Image</th>
@@ -48,6 +56,7 @@
               <td>{{product.name}}</td>
               <td>{{product.price}}</td>
               <td>{{product.discount}} %</td>
+              <td>{{ product.stock }}</td>
               <td>{{product.brand.name }}</td>
               <td>{{product.category.name }}</td>
               <td><img src="{{ url_for('static', filename ='images/'+ product.image_1)}}" width="40" height="30"></td>

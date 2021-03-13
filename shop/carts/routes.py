@@ -19,17 +19,24 @@ def mergedict(dict1, dict2):
 def addcart():
     try:
         product_id = request.form.get('product_id')
-        quantity =request.form.get('quantity')
+        quantity =int(request.form.get('quantity'))
         product = Addproduct.query.filter_by(id = product_id).first()
         if request.method == "POST" and product_id and quantity:
             # using disctionary 
-            items = {product_id:{'name': product.name, 'price': product.price, 'discount': product.discount, 'quantity': quantity, 'image': product.image_1}}
-             
+            items = {product_id:{'name': product.name, 'price': product.price, 'discount': product.discount, 'quantity': quantity, 'stock_1': product.stock, 'image': product.image_1}}
+           
 
             if 'shoppingcart' in session:
                 print(session['shoppingcart'])
                 if product_id in session['shoppingcart']:
-                    flash(f"This product is already in your cart", 'info')
+                    for key, item in session['shoppingcart'].items():
+                        if int(key) == int(product_id):
+                            session.modified = True
+                            item['quantity'] += 1
+                            
+                            
+                            
+                    
                 else:
                     session['shoppingcart'] = mergedict( session['shoppingcart'], items)
                     return redirect(request.referrer)
@@ -54,11 +61,51 @@ def allcart():
     subtotal =0
     grandtotal =0    
     for key , product in session['shoppingcart'].items():
-        discount = (product['discount']/100) * float(product['price'])
-        subtotal = subtotal + int(product['quantity']) * float(product['price'])
+        discount = (product['discount']/100) * int(product['price'])
+        subtotal = subtotal + int(product['quantity']) * int(product['price'])
         subtotal = subtotal - discount
-        grandtotal = float(subtotal)
-    return render_template('products/carts.html', grandtotal = grandtotal)    
-        
-# @app.route('/updatecart', methods=['POST'])
-# def updatecart
+        grandtotal = int(subtotal)
+    return render_template('products/carts.html', grandtotal = grandtotal, title = 'Cart')    
+
+
+
+@app.route('/updatecart/<int:cart_id>', methods=['POST'])
+def updatecart(cart_id):
+    if 'shoppingcart' not in session or len(session['shoppingcart'])<=0 :
+        return redirect(url_for('home'))
+    if request.method == 'POST':
+        quantity = request.form.get('quantity') 
+        try: 
+            session.modified = True
+            for key, item in session['shoppingcart'].items():
+                if int(key) == cart_id:
+                    # if item['stock_1'] < quantity:
+                    #     flash(f'Sorry','warning')
+                    # else:    
+                    item['quantity'] = quantity
+                    flash(f'Your cart has been updated','success')
+                    return redirect(url_for('allcart'))
+
+
+        except Exception as e:
+            print(e)
+            return redirect(url_for('allcart'))   
+
+
+
+@app.route('/deletecartitem/<int:id>')
+def deletecartitem(id):
+    if 'shoppingcart' not in session or len(session['shoppingcart'])<=0 :
+        return redirect(url_for('home'))
+    try:
+        session.modified = True
+        for key, item in session['shoppingcart'].items():
+            if int(key)== id:
+                session['shoppingcart'].pop(key, None)
+
+                return redirect(url_for('allcart'))
+    except Exception as e:
+        print(e) 
+        return redirect(url_for('allcart'))   
+
+

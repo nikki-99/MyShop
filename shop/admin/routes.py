@@ -36,8 +36,7 @@ def category():
 
 @app.route('/register', methods = ['GET','POST'])
 def register():
-   
-    
+
     form = RegistrationForm()
     if request.method == 'POST' and form.validate():
         hash_password = bcrypt.generate_password_hash(form.password.data)
@@ -52,7 +51,6 @@ def register():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    
     form = LoginForm()
     if request.method == 'POST' and form.validate():
         user = User.query.filter_by(email = form.email.data).first()
@@ -63,7 +61,4 @@ def login():
             return redirect(url_for('admin'))
         else:
             flash(f'Wrong password or email. Please try again', 'danger')    
-            
-    
-
     return render_template('admin/login.html',form = form, title = 'Login Page')    

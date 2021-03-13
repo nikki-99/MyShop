@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% include 'navbar.html' %}
+
 <h3 class="text-center mt-3"> My Carts</h3>
 <div class="container mt-5">
+    {% include '_messages.html' %}
     <div class="row">
         <table class="table table-sm table-condensed table-striped table-hover ">
 <thead>
@@ -33,22 +34,25 @@
     {% else %}
     <td></td>
     {% endif %}
-    <form action="" method="POST">
-    <td><input type="number" value=" {{product.quantity }}" name="quantity" min="1" max="10"></td>
+  
+   
+    <form action="{{url_for('updatecart', cart_id = key)}}" method="POST">
+        <td><input type="number" min="1" max="{{product.stock_1}}" value="{{product.quantity}}" name="quantity" ></td>
 
-    {% set subtotal = product.quantity|int * product.price|float %}
-    <td>{{((subtotal|float) - val|float )}}</td>
+    {% set subtotal = product.quantity|int * product.price|int %}
+    <td>{{((subtotal|int) - val|int )}}</td>
 
 
    
-    <td><a class="btn btn-sm btn-outline-info">Update</a></td>
+    <td><button type="submit" class="btn btn-sm btn-outline-info" >Update</button></td>
 </form>
-    <td><a class="btn btn-sm btn-warning">Delete</a></td>
+    <td><a href="{{ url_for('deletecartitem', id = key)}}" class="btn btn-sm btn-danger" >Delete</a></td>
 </tr>
 {% endfor %}
 <tr>
     <td></td>
     
+    <td></td>
     <td></td>
     <td></td>
     <td></td>

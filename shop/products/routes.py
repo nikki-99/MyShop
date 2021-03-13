@@ -6,22 +6,30 @@ import secrets, os
 
 
 
+def brands():
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+    return brands
+
+def categories():
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+    return categories
+
+
+
 @app.route('/')
 def home():
     page = request.args.get('page',1,type = int)
     products = Addproduct.query.filter(Addproduct.stock>0).paginate(page = page,per_page = 4)
     #  brand whose any time doesn't exist no need to show
-    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
-    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+    
 
-    return render_template('products/index.html', products = products, brands = brands,categories=categories)
+    return render_template('products/index.html', products = products, brands = brands(),categories=categories(), title = 'Home')
 
 @app.route('/product/<int:id>')
 def description(id):
     product = Addproduct.query.get_or_404(id)
-    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
-    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
-    return render_template('products/description.html', product = product, brands = brands, categories = categories)
+
+    return render_template('products/description.html', product = product, brands = brands(), categories = categories(), title = 'Description')
 
 
 
@@ -30,10 +38,9 @@ def get_brand(id):
     page = request.args.get('page',1,type = int)
     page_brand = Brand.query.filter_by(id=id).first_or_404()
     brand_pro = Addproduct.query.filter_by(brand = page_brand).paginate(page = page,per_page = 4)
-    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
-    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
 
-    return render_template('products/index.html', brand_pro = brand_pro, brands = brands,categories=categories, page_brand= page_brand)   
+
+    return render_template('products/index.html', brand_pro = brand_pro, brands = brands(),categories=categories(), page_brand= page_brand, title='Home(brand)')   
 
 
 
@@ -44,9 +51,8 @@ def get_cat(id):
     page = request.args.get('page',1,type = int)
     page_cat = Category.query.filter_by(id=id).first_or_404()
     category_pro = Addproduct.query.filter_by(category= page_cat).paginate(page = page,per_page = 4)
-    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
-    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
-    return render_template('products/index.html',category_pro = category_pro, categories=categories, brands = brands, page_cat = page_cat)
+  
+    return render_template('products/index.html',category_pro = category_pro, categories=categories(), brands = brands(), page_cat = page_cat, title = 'Home(category)')
 
 
 
