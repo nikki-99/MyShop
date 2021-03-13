@@ -51,13 +51,15 @@ def addcart():
         print(e)
     finally:
         return redirect(request.referrer)
+     
 
 
 
 @app.route('/carts')
 def allcart():
     if 'shoppingcart' not in session:
-        return redirect(request.referrer)
+        return redirect(request.referrer) 
+  
     subtotal =0
     grandtotal =0    
     for key , product in session['shoppingcart'].items():
@@ -107,5 +109,14 @@ def deletecartitem(id):
     except Exception as e:
         print(e) 
         return redirect(url_for('allcart'))   
+
+
+@app.route('/clearcart')
+def clearcart():
+    try:
+        session.pop('shoppingcart', None)
+        return redirect(url_for('home'))
+    except Exception as e:
+        print(e)
 
 

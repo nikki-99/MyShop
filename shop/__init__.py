@@ -26,3 +26,4 @@ migrate = Migrate(app, db)
 from shop.admin import routes
 from shop.products import routes
 from shop.carts import routes 
+from shop.customers import routes
