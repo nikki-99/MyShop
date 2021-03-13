@@ -33,6 +33,20 @@
          {% endfor %}
                 </ul>
               </li>
+{% if current_user.is_authenticated %}
+<li class="nav-item">
+  <a href="{{ url_for('customer_logout')}}" class="nav-link"style="color: white;">Logout</a>
+</li>
+{% else %}
+<li class="nav-item">
+  <a href="{{ url_for('customer_registration')}}" class="nav-link"style="color: white;">Register</a>
+</li>
+<li class="nav-item">
+  <a href="{{ url_for('customer_login')}}" class="nav-link"style="color: white;">Login</a>
+</li>
+
+{% endif %}
+
               <li class="nav-item">
                 <a class="nav-link active" style="color: white;" href="{{ url_for('allcart')}}" tabindex="-1">Cart ({{ session['shoppingcart']|length }})</a>
             </li>

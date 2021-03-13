@@ -1,47 +1,35 @@
-
-<!-- {% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
+
+
+<div class="conatiner">
+<div class="row">
 {% from "_formhelpers.html" import render_field %}
-
-<div class="container">
-    <div class="row">
-       <div class="col-md-2"></div>
-       <div class="col-md-8">
-<h1 class="text-info text-center">Register</h1>
-       </div>
-       <div class="col-md-2"></div>
-    </div>
-
-    <form action="" method="POST" enctype="multipart/form-data">
-        
+{% include '_messages.html' %}
+<form method="POST" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
-        <div class="row mt-3">
-            <div class="col-md-3"></div>
-            <div class="col-md-3">
-                {{ render_field(form.name, class="form-control") }}
-                {{ render_field(form.username, class="form-control") }}
-                {{ render_field(form.email, class="form-control") }}
-                {{ render_field(form.password, class="form-control") }}
-                {{ render_field(form.confirm, class="form-control") }}
-                {{ render_field(form.contact, class="form-control") }}
-               
-            </div>
-            <div class="col-md-3">
-                {{ render_field(form.country, class="form-control") }}
-                {{ render_field(form.state, class="form-control") }}
-                {{ render_field(form.city, class="form-control") }}
-                {{ render_field(form.address, class="form-control") }}
-                {{ render_field(form.pincode, class="form-control") }}
-                {{form.submit(class="btn btn-sm btn-outline-warning mt-2")}}
-                
-               
-
-            </div>
-            <div class="col-md-2"></div>
-        </div>
-
-    </form>
+  <div class="form-group" style="width: 45%;position: absolute; left: 28%; top: 17%;">
+    
+    <div class="text-center h1 text-danger">Login</div>
+    {{ render_field(form.email, class="form-control") }}
+    {{ render_field(form.password, class="form-control") }}
+   
+    
+  
+  <p><input type=submit value="Login" class="btn btn-info"></p>
+</div>
+</form>
+</div>
+<div class="col-md-15 mt-6 text-center" >
+    <small style="    position: absolute;
+    top: 56%;
+    left: 65%;">
+      Need an Account? </small><a class="btn btn-sm btn-success" style=" position: absolute;
+      top: 50%;
+      left: 65%;"href="{{ url_for('customer_registration')
+      }}">Register Now</a>
+    </small>
+  </div>
 </div>
 
-
-{% endblock %} -->
+{% endblock %}

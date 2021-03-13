@@ -31,7 +31,7 @@
                 {{ render_field(form.city, class="form-control") }}
                 {{ render_field(form.address, class="form-control") }}
                 {{ render_field(form.pincode, class="form-control") }}
-                {{form.submit(class="btn btn-sm btn-outline-warning mt-2")}}
+                {{form.submit(class="btn btn-sm btn-warning mt-4")}}
                 
                
 
@@ -40,6 +40,11 @@
         </div>
 
     </form>
+</div>
+<div class="col-md-15 mt-3 text-center"  >
+    <small>Already Have An Account? <a class="btn btn-sm btn-success" href="{{ url_for('customer_login')}}">Sign In</a>
+
+    </small>
 </div>
 
 

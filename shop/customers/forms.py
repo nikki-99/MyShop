@@ -37,17 +37,8 @@ class CustomerRegistrationForm(FlaskForm):
 
 
 
-# @app.route('/customer/login', methods = ['GET','POST'])
-# def customer_login():
-
-#     form = LoginForm()
-#     if form.validate_on_submit():
-#         user = Customer.query.filter_by(email = form.email.data).first()
-   
-#         if user and bcrypt.check_password_hash(user.password, form.password.data):
-#             login_user(user, remember=form.remember.data)
-#             return redirect(url_for('main.home'))
-#         else:    
-            
-#             flash(f'Login Unsuccessful. Please check email or password','error')
-#     return render_template('login.html',title = 'Login', form = form)
+class CustomerLoginForm(FlaskForm):
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
