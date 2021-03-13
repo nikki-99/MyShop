@@ -1,7 +1,7 @@
 from flask import render_template, session, redirect, request, url_for, flash, current_app
 from shop import app, db, photos, bcrypt, login_manager
 from .forms import CustomerRegistrationForm, CustomerLoginForm
-from .models import Customer
+from .models import Customer, Order
 from flask_login import login_user, current_user,login_required, logout_user
 import secrets, os
 
@@ -41,3 +41,46 @@ def customer_login():
 def customer_logout():
     logout_user()
     return redirect(url_for('home'))    
+
+
+
+@app.route('/getorder') 
+@login_required
+def get_order():
+    if current_user.is_authenticated:
+        customer_id = current_user.id
+        invoice = secrets.token_hex(5)
+        try:
+            order = Order(invoice = invoice, orders =session['shoppingcart'], customer_id = customer_id)
+            db.session.add(order)
+            db.session.commit()
+            session.pop('shoppingcart')
+            flash(f'Your order has been accepted', 'success')
+            return redirect(url_for('order_detail', invoice = invoice))
+        except Exception as e:
+            print(e)
+            flash(f'Something went wrong','danger')
+            return redirect(url_for('allcart'))
+
+
+@app.route('/orders/<invoice>')
+@login_required
+def order_detail(invoice):
+    if current_user.is_authenticated:
+        subtotal =0
+        grandtotal =0 
+        customer_id = current_user.id
+        
+        
+        get_the_order = Order.query.filter_by(customer_id = customer_id).first()
+        for key, product in get_the_order.orders.items():
+            discount = (product['discount']/100) * int(product['price'])
+            subtotal = subtotal + int(product['quantity']) * int(product['price'])
+            subtotal = subtotal - discount
+            grandtotal = int(subtotal)            
+
+
+
+    else:
+        return redirect(url_for('customer_login'))
+    return render_template('customer/order.html',invoice = invoice, grandtotal = grandtotal, subtotal = subtotal,  get_the_order= get_the_order)    

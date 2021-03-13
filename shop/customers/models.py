@@ -1,7 +1,8 @@
 from shop import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
-
+import json
+# helps to convert dict to str..vice versa
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -23,10 +24,33 @@ class Customer(db.Model, UserMixin):
     date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
 
     def __repr__(self):
-        return '<User %r>' % self.username 
+        return '<Customer %r>' % self.username 
 
 
 
-# class Order(db.Model):
-#     id = db.Column(db.Integer, primary_key = True)
+class jsonEncodedDict(db.TypeDecorator):
+    impl = db.Text
 
+    def process_bind_param(self, value, dialect):
+        if value is None:
+            return '{}'
+        else:
+            return json.dumps(value)
+
+    def process_result_value(self, value, dialect):
+        if value is None:
+            return {}
+        else:
+            return json.loads(value)                
+
+class Order(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    invoice = db.Column(db.String(15), unique = True, nullable=False)
+    status = db.Column(db.String(50), nullable = False, default = 'Pending')
+    customer_id = db.Column(db.Integer,nullable = False)
+    order_date = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    orders = db.Column(jsonEncodedDict)
+
+
+    def __repr__(self):
+        return '<Order %r>' % self.invoice

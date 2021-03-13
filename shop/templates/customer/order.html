@@ -2,30 +2,40 @@
 
 {% block content %}
 {% include 'navbar.html' %}
-<h3 class="text-center mt-3"> My Carts</h3>
+
+<h3 class="text-center mt-3"> My Orders</h3>
+
+
 <div class="container mt-5">
     {% include '_messages.html' %}
+
+    Invoice: {{ get_the_order.invoice }}
+    <br>
+    Status: {{ get_the_order.status}}   <br>
+    Customer Name: {{ current_user.name}}   <br>
+    Customer email: {{ current_user.email }}   <br>
+    Customer phone no: {{ current_user.contact }}<br><br>
+
     <div class="row">
         <table class="table table-sm table-condensed table-striped table-hover ">
 <thead>
 <th>No</th>
-<th>Image</th>
+
 <th>Name</th>
 
 <th>Price</th>
 <th>Discount</th>
 <th>Quantity</th>
 <th>Sub Total</th>
-<th>Update</th>
-<th>Delete</th>
+
 </thead>
 <tbody>
 
-    {% for key, product in session['shoppingcart'].items() %}
+    {% for key, product in get_the_order.orders.items():  %}
     {% set val = ((product.discount/100) * product.price|float) %}
     <tr>
     <td>{{ loop.index }}</td>
-    <td><img src="{{ url_for('static', filename = 'images/' + product.image)}}"  height="45" width="50"></td>
+   
     <td>{{product.name}}</td>
     
     <td>Rs {{product.price}}</td>
@@ -36,23 +46,22 @@
     {% endif %}
   
    
-    <form action="{{url_for('updatecart', cart_id = key)}}" method="POST">
-        <td><input type="number" min="1" max="{{product.stock_1}}" value="{{product.quantity}}" name="quantity" ></td>
+
+        <td>{{product.quantity}}</td>
 
     {% set subtotal = product.quantity|int * product.price|int %}
     <td>{{((subtotal|int) - val|int )}}</td>
 
 
    
-    <td><button type="submit" class="btn btn-sm btn-outline-info" >Update</button></td>
-</form>
-    <td><a href="{{ url_for('deletecartitem', id = key)}}" class="btn btn-sm btn-danger" >Delete</a></td>
+
+  
 </tr>
 {% endfor %}
 <tr>
     <td></td>
     
-    <td></td>
+    
     <td></td>
     <td></td>
     <td></td>
@@ -67,9 +76,7 @@
 
         </table>
         <tr>
-        <a href="/" class="btn btn-sm btn-outline-info" style="width: 11%;">Continue Shopping</a>
-        <a href="{{url_for('get_order')}}" class="btn btn-sm btn-success " style="width: 7%; margin-left: 2%;"> Order Now</a>
-        <a href="{{ url_for('clearcart')}}" class="btn btn-sm btn-warning " style="width: 6%; margin-left:70%;">Clear Cart</a>
+            <a href="{{ url_for('clearcart')}}" class="btn btn-sm btn-warning " style="width: 6%; margin-left:80%;">Get PDF</a>
     </tr>
     </div>
 </div>
