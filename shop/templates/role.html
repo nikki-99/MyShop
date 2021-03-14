@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<html>
+    <head>
+<title>Journey</title>
+    </head>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            
+        }
+        body{
+           background-color: pink;
+        }
+    
+        a:hover{
+            box-shadow: 8px 2px 3px black;
+        }
+    </style>
+</html>
+<body>
+
+<a href="{{url_for('admin')}}" class="btn btn-primary btn-success" style="position: absolute; top: 50%; left: 40%; width: 6%;">Admin</a>
+
+
+
+<a href="{{url_for('home')}}" class="btn btn-primary btn-success" style="position: absolute; top: 50%; left: 52%;">Customer</a>
+</body>
+
+{% endblock %}

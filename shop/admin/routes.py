@@ -3,7 +3,9 @@ from shop import app, db, bcrypt
 from .forms import RegistrationForm,LoginForm
 from .models import User
 from shop.products.models import Addproduct, Brand, Category
+from shop.customers.models import Order
 
+from shop.products.routes import brands, categories
 
 @app.route('/admin')
 
@@ -65,6 +67,11 @@ def login():
     return render_template('admin/login.html',form = form, title = 'Login Page')    
 
 
+@app.route('/admin_shop')
+def admin_shop():
+    page = request.args.get('page',1,type = int)
+    products = Addproduct.query.filter(Addproduct.stock>0).paginate(page = page,per_page = 4)
+    #  brand whose any time doesn't exist no need to show
+    
 
-# @app.route('/admin_home')
-# def admin_home():
+    return render_template('admin/shop.html', products = products, brands = brands(),categories=categories(), title = 'Home')

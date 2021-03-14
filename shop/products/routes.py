@@ -16,7 +16,7 @@ def categories():
 
 
 
-@app.route('/')
+@app.route('/home')
 def home():
     page = request.args.get('page',1,type = int)
     products = Addproduct.query.filter(Addproduct.stock>0).paginate(page = page,per_page = 4)
