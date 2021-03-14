@@ -1,7 +1,7 @@
 from flask import render_template, session, redirect, request, url_for, flash
 from shop import app, db
 from shop.products.models import Addproduct
-
+from shop.products.routes import brands, categories
 
 
 
@@ -67,7 +67,7 @@ def allcart():
         subtotal = subtotal + int(product['quantity']) * int(product['price'])
         subtotal = subtotal - discount
         grandtotal = int(subtotal)
-    return render_template('products/carts.html', grandtotal = grandtotal, title = 'Cart')    
+    return render_template('products/carts.html', grandtotal = grandtotal, title = 'Cart', brands = brands(), categories = categories())    
 
 
 
