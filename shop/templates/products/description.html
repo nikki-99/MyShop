@@ -16,12 +16,16 @@
             <h4>Product name: {{ product.name }}</h4>
         <hr>
             <p>Product price: Rs.{{product.price}}</p>
+
           
             {% if product.discount > 0 %}
             <p style="color: chocolate; text-shadow: 2px 2px 8px;">Discount: {{product.discount}} %</p>
             {% endif %}
-            <b>Details</b>
+            
+           
+            <p  style="text-shadow: 2px 2px 2px gray;">Hurry up! Only {{ product.stock }} left</p>
             <hr>
+            <b>Details</b>
             <p>{{ product.description }}</p>
 
             <form action="{{ url_for('addcart')}}" method="POST">

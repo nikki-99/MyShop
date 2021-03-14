@@ -1,8 +1,11 @@
-{% extends 'base.html' %}
+<html>
+    <head>
+        <title>PDF</title>
+    </head>
+    <body>
 
-{% block content %}
 
-{% include 'navbar.html' %}
+
 <h3 class="text-center mt-3"> My Orders</h3>
 
 
@@ -12,12 +15,12 @@
     Invoice: {{ get_the_order.invoice }}
     <br>
     Status: {{ get_the_order.status}}   <br>
-    Customer Name: {{ get_the_customer.name}}   <br>
-    Customer email: {{ get_the_customer.email }}   <br>
-    Customer phone no: {{ get_the_customer.contact }}<br><br>
+    Customer Name: {{ current_user.name}}   <br>
+    Customer email: {{ current_user.email }}   <br>
+    Customer phone no: {{ current_user.contact }}<br><br>
 
     <div class="row">
-        <table class="table table-sm  ">
+        <table class="table table-sm table-condensed table-striped table-hover ">
 <thead>
 <th>No</th>
 
@@ -75,12 +78,7 @@
 </tbody>
 
         </table>
-        <td>
-        <form action="{{ url_for('get_pdf', invoice = get_the_order.invoice)}}" method="POST">
-     <button type="submit" class="btn btn-sm btn-success float-right">Get PDF</button>
-
-</form>
-</td>
+   
     </div>
 </div>
 
@@ -88,4 +86,5 @@
 
 
 
-{% endblock %}
+</body>
+</html>

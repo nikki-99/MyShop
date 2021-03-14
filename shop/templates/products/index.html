@@ -40,6 +40,9 @@
             </li>
 {% if current_user.is_authenticated %}
 <li class="nav-item">
+  <a class="nav-link active" style="color: white;" href="{{ url_for('allcart')}}" tabindex="-1">Cart ({{ session['shoppingcart']|length }})</a>
+</li>
+<li class="nav-item">
 <a href="{{ url_for('customer_logout')}}" class="nav-link"style="color: white;">Logout</a>
 </li>
 {% else %}
@@ -52,9 +55,7 @@
 
 {% endif %}
 
-            <li class="nav-item">
-              <a class="nav-link active" style="color: white;" href="{{ url_for('allcart')}}" tabindex="-1">Cart ({{ session['shoppingcart']|length }})</a>
-          </li>
+         
           
             
           </ul>
@@ -75,7 +76,7 @@
     <div class="row">
         {% if brand_pro %}
         {% for bro in brand_pro.items %}
-        <div class="col-md-3 mt-3 ml-3" style="    width: 17%;
+        <div class="col-md-3 mt-3 ml-3" style="    width: 18%;
         margin-left: 75px;">
             <div class="card">
                 <img src="{{ url_for('static', filename = 'images/' + bro.image_1)}}" alt="" class="card-img-top" height="150" width="15">
@@ -85,17 +86,12 @@
                     {% endif %}
                     <h4 class="text-center">{{bro.name}}</h4>
                     <p class="text-center">Price Rs-{{ bro.price}}</p>
-                    <div class="card-footer">
-                        <a href="{{url_for('description', id = bro.id)}}" class="float-left btn btn-sm btn-info">Details</a>
+                    
+                    <p class="text-center"  style="text-shadow: 2px 2px 2px gray;">Hurry up! Only {{ bro.stock }} left</p>
+                    <div class="row justify-content-center ml-5" style="width: 40%; ">
+                        <a href="{{url_for('description', id = bro.id)}}" class="float-left btn btn-sm btn-success" style="margin-left: 180%;">Details</a>
     
-    <form action="{{ url_for('addcart')}}" method="POST">
-      <input type="hidden" name="product_id" value="{{ bro.id }}">
-      <button type="submit"class=" btn btn-sm btn-warning float-right" style="position: absolute;
-      top: 82%;
-      left: 60%;">Add Cart</button>
-      
-      <input type="hidden" name="quantity" value="1" min="1" >          
-      </form>
+    
                
                     </div>
                 </div>
@@ -158,19 +154,13 @@
                     {% endif %}
                     <h4 class="text-center">{{cat.name}}</h4>
                     <p class="text-center">Price Rs-{{ cat.price}}</p>
-                    <div class="card-footer">
-                        <a href="{{url_for('description', id = cat.id)}}" class="float-left btn btn-sm btn-info">Details</a>
                     
-    <form action="{{ url_for('addcart')}}" method="POST">
-      <input type="hidden" name="product_id" value="{{ cat.id }}">
-      <button type="submit"class=" btn btn-sm btn-warning float-right" style="position: absolute;
-      top: 82%;
-      left: 60%;" >Add Cart</button>
-      
-      <input type="hidden" name="quantity" value="1" min="1" >          
-      </form>
-               
-                    </div>
+                    <p class="text-center" style="text-shadow: 2px 2px 2px gray;">Hurry up! Only {{ cat.stock }} left</p>
+                    
+                    <div class="row justify-content-center ml-5" style="width: 40%; ">
+                        <a href="{{url_for('description', id = cat.id)}}" class="float-left btn btn-sm btn-success" style="margin-left: 180%;">Details</a>
+                    
+           </div>
                 </div>
             </div>
         </div>
@@ -231,19 +221,13 @@
                     <h3 style="text-shadow: 2px 2px 8px; color: red; transform: rotate(-17deg); position: absolute; top: 30%; left: 18%;">Discount {{product.discount}}%</h3>
                     {% endif %}
                     <h4 class="text-center">{{product.name}}</h4>
-                    <p class="text-center">Price Rs-{{ product.price}}</p>
-                    <div class="card-footer">
-                        <a href="{{url_for('description', id = product.id)}}" class="float-left btn btn-sm btn-info">Details</a>
+                    <p class="text-center" style="color: darkgreen;">Price Rs-<b>{{ product.price}}</b></p>
+
+                    <p class="text-center" style="text-shadow: 2px 2px 2px gray;">Hurry up! Only {{ product.stock }} left</p>
+                    <div class="row justify-content-center ml-5" style="width: 40%; ">
+                       <a href="{{url_for('description', id = product.id)}}" class="float-left btn btn-sm btn-success" style="margin-left: 180%;">Details</a>
     
-    
-    <form action="{{ url_for('addcart')}}" method="POST">
-      <input type="hidden" name="product_id" value="{{ product.id }}">
-      <button type="submit"class=" float-right btn btn-sm btn-warning" style="position: absolute;
-      top: 82%;
-      left: 60%;">Add Cart</button>
-      
-      <input type="hidden" name="quantity" value="1" min="1" max="{{ product.stock }}" >          
-      </form>
+                   
                
                     </div>
                 </div>

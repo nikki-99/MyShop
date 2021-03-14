@@ -30,5 +30,5 @@ login_manager.login_message_category =  'danger'
 
 from shop.admin import routes
 from shop.products import routes
-from shop.carts import routes 
+
 from shop.customers import routes

@@ -6,6 +6,7 @@ from shop.products.models import Addproduct, Brand, Category
 
 
 @app.route('/admin')
+
 def admin():
     if 'email' not in session:
         flash(f'Login first','danger')
@@ -62,3 +63,8 @@ def login():
         else:
             flash(f'Wrong password or email. Please try again', 'danger')    
     return render_template('admin/login.html',form = form, title = 'Login Page')    
+
+
+
+# @app.route('/admin_home')
+# def admin_home():
