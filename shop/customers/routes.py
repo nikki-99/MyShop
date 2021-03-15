@@ -8,7 +8,6 @@ import pdfkit
 from shop.products.models import Addproduct
 
 
-from shop.products.routes import brands, categories
 
 
 
@@ -90,7 +89,7 @@ def order_detail(invoice):
 
     else:
         return redirect(url_for('customer_login'))
-    return render_template('customer/order.html',invoice = invoice, grandtotal = grandtotal, subtotal = subtotal,  get_the_order= get_the_order, get_the_customer = get_the_customer, brands = brands(), categories = categories())    
+    return render_template('customer/order.html',invoice = invoice, grandtotal = grandtotal, subtotal = subtotal,  get_the_order= get_the_order, get_the_customer = get_the_customer)    
 
 
 
@@ -193,7 +192,7 @@ def allcart():
         subtotal = subtotal + int(product['quantity']) * int(product['price'])
         subtotal = subtotal - discount
         grandtotal = int(subtotal)
-    return render_template('products/carts.html', grandtotal = grandtotal, title = 'Cart', brands = brands(), categories = categories())    
+    return render_template('products/carts.html', grandtotal = grandtotal, title = 'Cart')    
 
 
 

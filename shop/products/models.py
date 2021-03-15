@@ -13,11 +13,6 @@ class Addproduct(db.Model):
     adding_date = db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
     
 
-    brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
-    brand = db.relationship('Brand',backref=db.backref('brands', lazy=True))
-
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-    category = db.relationship('Category',backref=db.backref('categories', lazy=True))
     
     image_1 = db.Column(db.String(120), nullable = False, default='image.jpg')
     image_2 = db.Column(db.String(120), nullable = False, default='image.jpg')
@@ -28,12 +23,3 @@ class Addproduct(db.Model):
     def __repr__(self):
         return '<Addproduct %r>' % self.name
 
-
-class Brand(db.Model):
-    id = db.Column(db.Integer, primary_key=True,autoincrement = True)
-    name = db.Column(db.String(50), nullable=False, unique=True)
-
-
-class Category(db.Model):
-    id = db.Column(db.Integer, primary_key=True,autoincrement = True)
-    name = db.Column(db.String(50), nullable=False, unique=True)

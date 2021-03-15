@@ -2,10 +2,10 @@ from flask import render_template, session, redirect, request, url_for, flash
 from shop import app, db, bcrypt
 from .forms import RegistrationForm,LoginForm
 from .models import User
-from shop.products.models import Addproduct, Brand, Category
-from shop.customers.models import Order
+from shop.products.models import Addproduct
+from shop.customers.models import Order, Customer
 
-from shop.products.routes import brands, categories
+
 
 @app.route('/admin')
 
@@ -16,23 +16,7 @@ def admin():
     products = Addproduct.query.all()    
     return render_template('admin/index.html', title = 'Admin', products = products)
 
-@app.route('/brands')
-def brands():
-    if 'email' not in session:
-        flash(f'Login first','danger')
-        return redirect(url_for('login'))
-    brands = Brand.query.order_by(Brand.id.desc()).all()
 
-    return render_template('admin/brand.html', title ='Brand Page', brands = brands)
-
-@app.route('/category')
-def category():
-    if 'email' not in session:
-        flash(f'Login first','danger')
-        return redirect(url_for('login'))
-    categories = Category.query.order_by(Category.id.desc()).all()
-
-    return render_template('admin/brand.html', title ='Category Page', categories = categories)
 
 
 
@@ -62,6 +46,8 @@ def login():
 
             flash(f'Welcome { form.email.data }. You are now logged in!','success')
             return redirect(url_for('admin'))
+        elif user is None:
+            flash(f'You are not a registered as a Admin. Registered yourself first!', 'danger')                 
         else:
             flash(f'Wrong password or email. Please try again', 'danger')    
     return render_template('admin/login.html',form = form, title = 'Login Page')    
@@ -70,8 +56,20 @@ def login():
 @app.route('/admin_shop')
 def admin_shop():
     page = request.args.get('page',1,type = int)
+    order = Order.query.all()
     products = Addproduct.query.filter(Addproduct.stock>0).paginate(page = page,per_page = 4)
     #  brand whose any time doesn't exist no need to show
     
 
-    return render_template('admin/shop.html', products = products, brands = brands(),categories=categories(), title = 'Home')
+    return render_template('admin/shop.html', products = products, title = 'Home', order = order)
+
+
+
+
+@app.route('/detail')
+def detail():
+    order = Order.query.all()
+    customer = Customer.query.all()
+    return render_template('admin/detail.html', order=order, customer = customer)    
+
+       

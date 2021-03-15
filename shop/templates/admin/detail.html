@@ -1,0 +1,60 @@
+
+
+
+
+{% extends "base.html" %}
+{% block content %}
+{% include '_messages.html' %}
+{% include 'admin_navbar.html' %}
+<div class="conatiner mt-5 ml-3" style="margin-left: 7rem; margin-right: 7rem;">
+
+    <table class="table table-sm table-condensed table-striped table-hover ">
+        <thead>
+            <th>No</th>
+            <th>Invoice</th>
+          <th>Customer</th>
+            <th>Order date</th>
+            <th>Product</th>
+           
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Discount</th>
+        </thead>
+        <tbody>
+            {% if order %}
+            {% for ord in order %}
+          <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ ord.invoice }}</td>
+           {% for cust in customer %}
+              {% if cust.id == ord.customer_id %}
+            <td>  {{ cust.name }}</td>
+            
+              {% endif %}
+
+
+
+              {% endfor %}
+
+         
+       
+              <td>{{ moment(ord.order_date).format("MMMM Do, YY") }}</td>
+              {% for key, product in ord.orders.items():  %}
+              <td>{{ product.name }}
+                </td>
+              <td>{{ product.quantity }}</td>
+              <td>{{ product.price }}</td>
+              <td>{{ product.discount }}</td>
+              {% endfor %}
+
+              {% endfor %}
+              {% endif %}
+
+
+              {% block scripts %}
+    
+              {{ moment.include_moment() }}
+              {% endblock %}
+
+              {% endblock %}
+              

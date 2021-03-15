@@ -5,6 +5,7 @@ from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_uploads import IMAGES, UploadSet, configure_uploads, patch_request_class
 from flask_login import LoginManager
+from flask_moment import Moment
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
@@ -21,6 +22,7 @@ patch_request_class(app)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 migrate = Migrate(app, db)
+moment = Moment(app)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'customer_login'

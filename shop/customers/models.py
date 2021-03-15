@@ -47,7 +47,7 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     invoice = db.Column(db.String(15), unique = True, nullable=False)
     status = db.Column(db.String(50), nullable = False, default = 'Pending')
-    customer_id = db.Column(db.Integer,nullable = False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=False)
     order_date = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     orders = db.Column(jsonEncodedDict)
 
