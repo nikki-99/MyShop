@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+{% include '_messages.html' %}
+{% include 'navbar.html' %}
+<h3 class="text-center mt-2" style="color: crimson;">My Account</h3>
+
+<div class="main" style="display: flex; align-items: center;
+justify-content: center;
+margin-top: 2%;
+margin-left: 2%;
+margin-bottom: 5%;">
+
+
+<div class="row" style="flex: 3; margin-left: 12%;">
+    
+    <span>Name:   <b>{{ customer.name }}</b></span>
+<span>Username:   <b>{{ customer.username }}</b></span>
+<span>Email: <b>{{ customer.email}}</b></span>
+<span>Phone no: <b>{{ customer.contact}}</b></span>
+
+</div>
+<div class="row" style="flex: 2;" >
+
+<span>Country: <b>{{ customer.country}}</b></span>
+<span>State: <b>{{ customer.state}}</b></span>
+<span>City: <b>{{ customer.city}}</b></span>
+
+
+<span>Address: <b>{{ customer.address}}</b></span>
+<span>Pincode: <b>{{ customer.pin }}</b></span>
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="conatiner"style="margin-left: 7rem; margin-right: 7rem;" >
+    <table class="table table-sm table-condensed table-hover ml-2" style="text-align: center";>
+        <thead>
+            <th>No</th>
+            <th>Invoice No</th>
+            <th>Order Date</th>
+            <th>Product</th>
+            
+            <th>Quantity</th>
+            <th>Price (Rs.)</th>
+            <th>Discount (%)</th>
+
+        </thead>
+        <tbody>
+            
+{% if order %}
+{% for ord in order %}
+            <tr>
+                <td>{{ loop.index }}</td>
+               
+                <td>{{ ord.invoice }}</td>
+                <td>{{ moment(ord.order_date).format("MMMM Do, YY") }}</td>
+                {% for key, product in ord.orders.items()  %}
+<td>{{ product.name }}
+  </td>
+<td>{{ product.quantity }}</td>
+<td>{{ product.price }}</td>
+<td>{{ product.discount }}</td>
+{% endfor %}
+
+            </tr>
+
+
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% block scripts %}
+    
+{{ moment.include_moment() }}
+{% endblock %}
+
+
+
+{% endblock %}

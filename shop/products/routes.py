@@ -9,6 +9,7 @@ import secrets, os
 
 
 
+
 @app.route('/home')
 def home():
     page = request.args.get('page',1,type = int)
@@ -19,10 +20,13 @@ def home():
     else:
       
         products = Addproduct.query.filter(Addproduct.stock>0).paginate(page = page,per_page = 4)
-    #  brand whose any time doesn't exist no need to show
+    
     
 
     return render_template('products/index.html', products = products,  title = 'Home')
+
+
+
 
 @app.route('/product/<int:id>')
 def description(id):

@@ -28,9 +28,12 @@
                     {% endif %}
                     <h4 class="text-center">{{product.name}}</h4>
                     <p class="text-center" style="color: darkgreen;">Price Rs-<b>{{ product.price}}</b></p>
-                  
 
                     <p class="text-center" style="text-shadow: 2px 2px 2px gray;">Hurry up! Only {{ product.stock }} left</p>
+
+                  
+
+                
                     <div class="row justify-content-center ml-5" style="width: 40%; ">
                        <a href="{{url_for('description', id = product.id)}}" class="float-left btn btn-sm btn-success" style="margin-left: 180%;">Details</a>
     

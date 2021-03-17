@@ -40,6 +40,11 @@
       <a class="nav-link active" style="color: white;" href="{{ url_for('allcart')}}" tabindex="-1">Cart ({{ session['shoppingcart']|length }})</a>
   </li>
 
+  <li class="nav-item">
+    <a href="{{ url_for('account', name = current_user.name)}}" class="nav-link"style="color: white;">Account</a>
+
+  </li>
+
     <li class="nav-item">
       <a href="{{ url_for('customer_logout')}}" class="nav-link"style="color: white;">Logout</a>
 

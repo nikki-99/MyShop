@@ -45,7 +45,7 @@ def customer_login():
 @app.route('/customer/logout')
 def customer_logout():
     logout_user()
-    return redirect(url_for('home'))    
+    return redirect(url_for('main'))    
 
 
 
@@ -244,3 +244,11 @@ def clearcart():
     except Exception as e:
         print(e)
     
+
+
+
+@app.route('/account/<name>')
+def account(name):
+    customer = Customer.query.filter_by(name = name).first()
+    order = Order.query.filter_by(customer_id = customer.id).all()
+    return render_template('customer/account.html', customer = customer, order = order)    

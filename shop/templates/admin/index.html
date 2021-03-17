@@ -23,8 +23,12 @@
               <td>{{product.name}}</td>
               <td>{{product.price}}</td>
               <td>{{product.discount}} %</td>
+
+
+
               <td>{{ product.stock }}</td>
-             
+
+           
               <td><img src="{{ url_for('static', filename ='images/'+ product.image_1)}}" width="40" height="30"></td>
               <td><a href="{{ url_for('updateproduct',id = product.id)}}" class="btn btn-sm btn-outline-info">Edit</a></td>
 

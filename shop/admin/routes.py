@@ -13,8 +13,10 @@ def admin():
     if 'email' not in session:
         flash(f'Login first','danger')
         return redirect(url_for('login'))
-    products = Addproduct.query.all()    
-    return render_template('admin/index.html', title = 'Admin', products = products)
+    products = Addproduct.query.all()   
+    order = Order.query.all() 
+  
+    return render_template('admin/index.html', title = 'Admin', products = products, order = order)
 
 
 
