@@ -1,11 +1,12 @@
 from flask import render_template, session, redirect, request, url_for, flash, current_app, make_response
-from shop import app, db, photos, bcrypt, login_manager
+from shop import app, db, photos, bcrypt, login_manager, mail
 from .forms import CustomerRegistrationForm, CustomerLoginForm
 from .models import Customer, Order
 from flask_login import login_user, current_user,login_required, logout_user
 import secrets, os
 import pdfkit
 from shop.products.models import Addproduct
+
 
 
 
@@ -49,6 +50,8 @@ def customer_logout():
 
 
 
+
+
 @app.route('/getorder') 
 @login_required
 def get_order():
@@ -60,7 +63,9 @@ def get_order():
             db.session.add(order)
             db.session.commit()
             session.pop('shoppingcart')
+        
             flash(f'Your order has been accepted', 'success')
+        
             return redirect(url_for('order_detail', invoice = invoice))
         except Exception as e:
             print(e)
@@ -209,7 +214,7 @@ def updatecart(cart_id):
                     # if item['stock_1'] < quantity:
                     #     flash(f'Sorry','warning')
                     # else:    
-                    item['quantity'] = quantity
+                    item['quantity'] = int(quantity)
                     flash(f'Your cart has been updated','success')
                     return redirect(url_for('allcart'))
 
@@ -251,4 +256,9 @@ def clearcart():
 def account(name):
     customer = Customer.query.filter_by(name = name).first()
     order = Order.query.filter_by(customer_id = customer.id).all()
-    return render_template('customer/account.html', customer = customer, order = order)    
+    return render_template('customer/account.html', customer = customer, order = order)  
+
+
+
+
+     

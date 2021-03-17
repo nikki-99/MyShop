@@ -4,6 +4,8 @@ from .forms import RegistrationForm,LoginForm
 from .models import User
 from shop.products.models import Addproduct
 from shop.customers.models import Order, Customer
+import json
+
 
 
 
@@ -82,3 +84,31 @@ def info(name):
     customer = Customer.query.filter_by(name = name).first()
     order = Order.query.filter_by(customer_id = customer.id).all()
     return render_template('admin/info.html', customer = customer, order = order)
+
+
+
+@app.route('/graph')
+def graph():
+    x = []
+    y =[]
+    order = Order.query.all()
+    if order:
+        for ord in order:
+            for key, product in ord.orders.items():
+                y.append(product['quantity'])
+               
+            x.append(ord.order_date.strftime("%Y-%m-%d"))
+        for i in range(0, len(y)):
+            y[i]= int(y[i])
+
+
+        for j in range(0, len(x)):
+            x[j] = str(x[j])    
+
+            
+
+
+
+    
+    
+    return render_template('admin/graph.html', x=json.dumps(x), y= json.dumps(y))
