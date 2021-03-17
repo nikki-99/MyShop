@@ -73,3 +73,10 @@ def detail():
     return render_template('admin/detail.html', order=order, customer = customer)    
 
        
+
+
+@app.route('/info/<name>')
+def info(name):
+    customer = Customer.query.filter_by(name = name).first()
+    order = Order.query.filter_by(customer_id = customer.id).all()
+    return render_template('admin/info.html', customer = customer, order = order)

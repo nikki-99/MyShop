@@ -8,7 +8,7 @@
 {% include 'admin_navbar.html' %}
 <div class="conatiner mt-5 ml-3" style="margin-left: 7rem; margin-right: 7rem;">
 
-    <table class="table table-sm table-condensed table-striped table-hover ">
+    <table class="table table-sm table-condensed table-striped table-hover "style="text-align: center";>
         <thead>
             <th>No</th>
             <th>Invoice</th>
@@ -17,10 +17,10 @@
             <th>Product</th>
            
             <th>Quantity</th>
-            <th>Price</th>
-            <th>Discount</th>
+            <th>Price (Rs.)</th>
+            <th>Discount (%)</th>
         </thead>
-        <tbody>
+        <tbody >
             {% if order %}
             {% for ord in order %}
           <tr>
@@ -28,7 +28,7 @@
               <td>{{ ord.invoice }}</td>
            {% for cust in customer %}
               {% if cust.id == ord.customer_id %}
-            <td>  {{ cust.name }}</td>
+            <td><a href="{{ url_for('info', name = cust.name)}}" style="text-decoration: none; color: black;">{{ cust.name }}</a></td>
             
               {% endif %}
 
