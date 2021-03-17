@@ -114,8 +114,8 @@ def get_pdf(invoice):
 
 
    
-            result = render_template('customer/pdf.html',invoice = invoice, grandtotal = grandtotal,  get_the_order= get_the_order)    
-            pdf = pdfkit.from_string(result, False)
+            rendered = render_template('customer/pdf.html',invoice = invoice, grandtotal = grandtotal,  get_the_order= get_the_order)    
+            pdf = pdfkit.from_string(rendered, False)
             response = make_response(pdf)
             response.headers['content-Type']='application/pdf'
             response.headers['content-Disposition']= 'inline: filename= output.pdf'
