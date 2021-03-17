@@ -118,7 +118,7 @@ def get_pdf(invoice):
             pdf = pdfkit.from_string(result, False)
             response = make_response(pdf)
             response.headers['content-Type']='application/pdf'
-            response.headers['content-Disposition']= 'inline: filename='+invoice +'.pdf'
+            response.headers['content-Disposition']= 'inline: filename= output.pdf'
             return response
 
     return redirect(url_for('order_detail'))

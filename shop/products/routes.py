@@ -12,7 +12,13 @@ import secrets, os
 @app.route('/home')
 def home():
     page = request.args.get('page',1,type = int)
-    products = Addproduct.query.filter(Addproduct.stock>0).paginate(page = page,per_page = 4)
+    q = request.args.get('q')
+
+    if q:
+        products = Addproduct.query.filter(Addproduct.name.contains(q)).paginate(page = page, per_page=4)
+    else:
+      
+        products = Addproduct.query.filter(Addproduct.stock>0).paginate(page = page,per_page = 4)
     #  brand whose any time doesn't exist no need to show
     
 

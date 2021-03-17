@@ -24,7 +24,14 @@
 
               
               
-                  <ul class="navbar-nav ml-auto">    
+                  <ul class="navbar-nav ml-auto"> 
+                    
+                    
+                    <form class="d-flex" method="GET">
+                      <input class="form-control me-2" type="search" placeholder="Search Products.." aria-label="Search" name="q">
+                      <button class="btn btn-sm btn-outline-success" type="submit">Search</button>
+                    </form>
+               
 
 
     {% if current_user.is_authenticated %}
