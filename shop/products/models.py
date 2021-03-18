@@ -1,5 +1,6 @@
 from shop import db
 from datetime import datetime
+from shop.customers.models import Customer
 
 
 class Addproduct(db.Model):
@@ -18,8 +19,9 @@ class Addproduct(db.Model):
     image_2 = db.Column(db.String(120), nullable = False, default='image.jpg')
     image_3 = db.Column(db.String(120), nullable = False, default='image.jpg')
     image_4 = db.Column(db.String(120), nullable = False, default='image.jpg')
+    
+
 
 
     def __repr__(self):
         return '<Addproduct %r>' % self.name
-

@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-{% include '_messages.html' %}
-{% include 'navbar.html' %}
-<h3 class="text-center mt-2" style="color: crimson;">My Account</h3>
 
+{% include 'navbar.html' %}
+{% include '_messages.html' %}
+<h3 class="text-center mt-2" style="color: crimson;">My Account</h3>
+<div class="head" style="display: flex;
+flex-direction: column;
+width: 10%;
+align-items: center;
+justify-content: center;
+margin-left: 80%">
+<a href="{{ url_for('updateaccount', id = customer.id)}}" class="btn btn-sm btn-warning float-right">Update</a>
+</div>
 <div class="main" style="display: flex; align-items: center;
 justify-content: center;
 margin-top: 2%;

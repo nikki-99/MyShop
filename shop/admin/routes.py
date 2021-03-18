@@ -65,7 +65,7 @@ def admin_shop():
     #  brand whose any time doesn't exist no need to show
     
 
-    return render_template('admin/shop.html', products = products, title = 'Home', order = order)
+    return render_template('admin/shop.html', products = products, order = order, title = 'Shop')
 
 
 
@@ -74,7 +74,7 @@ def admin_shop():
 def detail():
     order = Order.query.all()
     customer = Customer.query.all()
-    return render_template('admin/detail.html', order=order, customer = customer)    
+    return render_template('admin/detail.html', order=order, customer = customer, title = 'Buyers List')    
 
        
 
@@ -83,7 +83,7 @@ def detail():
 def info(name):
     customer = Customer.query.filter_by(name = name).first()
     order = Order.query.filter_by(customer_id = customer.id).all()
-    return render_template('admin/info.html', customer = customer, order = order)
+    return render_template('admin/info.html', customer = customer, order = order, title = 'Info')
 
 
 
@@ -91,24 +91,10 @@ def info(name):
 def graph():
     x = []
     y =[]
-    order = Order.query.all()
-    if order:
-        for ord in order:
-            for key, product in ord.orders.items():
-                y.append(product['quantity'])
-               
-            x.append(ord.order_date.strftime("%Y-%m-%d"))
-        for i in range(0, len(y)):
-            y[i]= int(y[i])
-
-
-        for j in range(0, len(x)):
-            x[j] = str(x[j])    
-
-            
-
-
-
+    order = db.session.query(Order).all()
+    x = [ord.order_date.strftime("%Y-%m-%d") for ord in order]
+    y =  [product['quantity'] for ord in order for key, product in ord.orders.items() ]
     
-    
-    return render_template('admin/graph.html', x=json.dumps(x), y= json.dumps(y))
+         
+
+    return render_template('admin/graph.html', x=x , y=y, title = 'Statistics')

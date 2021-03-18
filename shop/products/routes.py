@@ -1,8 +1,9 @@
 from flask import render_template, session, redirect, request, url_for, flash, current_app
 from shop import app, db, photos 
 from .models import Addproduct
-from .forms import Addproducts
+from .forms import Addproducts 
 import secrets, os
+
 
 
 
@@ -33,7 +34,6 @@ def description(id):
     product = Addproduct.query.get_or_404(id)
 
     return render_template('products/description.html', product = product,  title = 'Description')
-
 
 
 
@@ -162,5 +162,6 @@ def deleteproduct(id):
         return redirect(url_for('admin'))
     flash(f'{product.name} can not  be deleted','warning')   
     return redirect(url_for('admin')) 
+
 
 

@@ -4,24 +4,25 @@
 {% include 'admin_navbar.html' %}
 
 
-  
+ 
 <body>
 <div class="graph" style="width: 50%; height: 50%; display: flex; margin-top: 5%; margin-left: 22%;">
     <canvas id="myChart"></canvas>
     </div>
   
     <script   type="text/javascript">
-     var xaxis = {{ x|safe}};
-     var yaxis = {{ y|safe}};   
+     const xaxis = {{ x| tojson }};
+    const yaxis = {{ y| tojson }};   
     
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: xaxis,
             datasets: [{
-              
+                label: 'Product Sale',
                 data: yaxis,
+                fill: false,
                 backgroundColor: [
                     
                     'rgba(255, 99, 132, 0.2)',
@@ -32,9 +33,9 @@
                     'rgba(255, 159, 64, 0.2)'
                 ],
                 borderColor: [
-                   'red'
+                   'blue'
                 ],
-                borderWidth: 3
+                borderWidth: 1
             }]
         },
         options: {

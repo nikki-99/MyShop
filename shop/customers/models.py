@@ -2,6 +2,7 @@ from shop import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
 import json
+
 # helps to convert dict to str..vice versa
 
 @login_manager.user_loader
@@ -54,3 +55,5 @@ class Order(db.Model):
 
     def __repr__(self):
         return '<Order %r>' % self.invoice
+
+

@@ -52,20 +52,23 @@ def customer_logout():
 
 
 
+
 @app.route('/getorder') 
 @login_required
 def get_order():
     if current_user.is_authenticated:
         customer_id = current_user.id
         invoice = secrets.token_hex(5)
+        
         try:
             order = Order(invoice = invoice, orders =session['shoppingcart'], customer_id = customer_id)
             db.session.add(order)
             db.session.commit()
             session.pop('shoppingcart')
         
-            flash(f'Your order has been accepted', 'success')
-        
+
+            flash(f'Your order has been accepted', 'success') 
+            
             return redirect(url_for('order_detail', invoice = invoice))
         except Exception as e:
             print(e)
@@ -261,4 +264,43 @@ def account(name):
 
 
 
-     
+
+@app.route('/updateaccount/<int:id>', methods =['GET','POST'])    
+def updateaccount(id):
+   
+    customer = Customer.query.get_or_404(id)
+
+    
+    form = CustomerRegistrationForm()
+    if request.method =='POST':
+        customer.name = form.name.data
+        customer.username = form.username.data
+        customer.email = form.email.data
+        customer.contact = form.contact.data
+        customer.country = form.country.data
+       
+      
+        customer.city = form.city.data
+        customer.state = form.state.data
+        customer.address = form.address.data
+        customer.pin = form.pincode.data
+                                                    
+        
+        db.session.commit()
+        flash(f'Your Account details has been updated','success')
+        return redirect(url_for('account', name = customer.name))
+
+    form.name.data = customer.name
+    form.username.data = customer.username
+
+    form.email.data =         customer.email 
+    form.contact.data = customer.contact
+    form.country.data =     customer.country 
+       
+      
+    form.city.data =     customer.city
+    form.state.data=    customer.state 
+    form.address.data=    customer.address 
+    form.pincode.data=     customer.pin 
+    
+    return render_template('customer/update_account.html', form = form,  customer = customer)

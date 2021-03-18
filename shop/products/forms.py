@@ -16,3 +16,5 @@ class Addproducts(FlaskForm):
     image_4 = FileField('Image-4',validators = [FileRequired(), FileAllowed(['jpg','gif','jpeg','png'])])
 
 
+
+    
