@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
+{% from "_formhelpers.html" import render_field %}
+{% include '_messages.html' %}
 
 
 
@@ -36,6 +37,7 @@
 </form>
         
         </div>
+    
     </div>
 
    <div class="row">
@@ -45,8 +47,40 @@
         <img src="{{ url_for('static', filename = 'images/'+ product.image_3)}}" height="100" width="100"class="p-2" id="small_image">
         <img src="{{ url_for('static', filename = 'images/'+ product.image_4)}}" height="100" width="100"class="p-2" id="small_image">
     </div>
-  
+   
 </div>
+</div>
+
+<div class="footer " style=" margin-top: 5%;     display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-around;">
+
+    <div class="content"style="border: 0.2px solid black;  width: 70%; display: flex;
+    flex-direction: column;
+    margin-left: 5%" >
+        <h3 class="text-center">Customer's Reviews</h3>
+
+        
+        <hr>
+       {% if reviews %}
+       {% for rev in reviews %}
+       <div class="comment" style="margin-left: 5%;">
+        <h2>{{ rev.username }}</h2>
+        <p>{{ rev.body }}</p>
+       </div>
+     
+{% else %}
+<p>No reviews yet!! </p>
+       {% endfor %}
+
+
+       {% endif %}
+    </div>
+    
+   <a href="{{ url_for('product_review', id = product.id)}}">Add Your Review</a>
+    
+
 </div>
 
 <script>

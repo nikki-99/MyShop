@@ -3,18 +3,21 @@
 {% include '_messages.html' %}
 {% from "_formhelpers.html" import render_field %}
 
-<form method="POST" enctype="multipart/form-data">
+
+
+<form action="#" method="POST" enctype="multipart/form-data">
+
+        
     {{ form.hidden_tag() }}
-  <div class="form-group" >
+  <div class="form-group" style=" left: 28%; top: 17%;">
     
-  
-    {{ render_field(form.commented_user, class="form-control") }}
+    <div class="text-center h3 text-danger">Add Your Review</div>
+    {{ render_field(form.username, class="form-control") }}
     {{ render_field(form.body, class="form-control") }}
    
     
   
   <p><input type=submit value="Review" class="btn btn-info"></p>
-</div>
+        
 </form>
-
 {% endblock %}

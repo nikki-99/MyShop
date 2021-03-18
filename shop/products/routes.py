@@ -1,9 +1,9 @@
 from flask import render_template, session, redirect, request, url_for, flash, current_app
 from shop import app, db, photos 
-from .models import Addproduct
-from .forms import Addproducts 
+from .models import Addproduct, Review
+from .forms import Addproducts, ReviewForm 
 import secrets, os
-
+from flask_login import login_user, current_user,login_required, logout_user
 
 
 
@@ -29,16 +29,37 @@ def home():
 
 
 
-@app.route('/product/<int:id>')
+@app.route('/product/<int:id>', methods = ['GET', 'POST'])
 def description(id):
     product = Addproduct.query.get_or_404(id)
+    
+    
+        
+    reviews = Review.query.filter_by(product_id= id).all()   
 
-    return render_template('products/description.html', product = product,  title = 'Description')
+    return render_template('products/description.html', product = product,  title = 'Description',  reviews = reviews)
 
 
 
 
-
+    
+@app.route('/product/<int:id>/review', methods = ['GET','POST'])
+@login_required
+def product_review(id):
+    product = Addproduct.query.get_or_404(id)
+    form = ReviewForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            if form.username.data != current_user.username:
+                flash(f'Please enter your own username')
+            else:    
+                
+                review = Review(username = form.username.data, body = form.body.data, product_id = id)
+                db.session.add(review)
+                db.session.commit()
+                flash(f'Your comment has been posted!','success')
+                return redirect(url_for('description', id = id))
+    return render_template('products/product_review.html', title = 'Review', form = form) 
 
 
 
