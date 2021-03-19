@@ -22,7 +22,7 @@ class Customer(db.Model, UserMixin):
     address = db.Column(db.String(120),  nullable=False)
     pin = db.Column(db.String(120),  nullable=False)
     contact= db.Column(db.String(120),  nullable=False)
-    date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+
 
     def __repr__(self):
         return '<Customer %r>' % self.username 

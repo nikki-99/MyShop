@@ -1,12 +1,44 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% include 'navbar.html' %}
+
 {% from "_formhelpers.html" import render_field %}
 {% include '_messages.html' %}
+<style>
+    .stars-outer{
+        position: relative;
+        display: inline-block;
+
+    }
+    .stars-inner{
+        position: absolute;
+        top: 0;
+        left: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 0;
+    }
+    .stars-inner::before{
+        content: " \f005 \f005 \f005 \f005 \f005";
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        color: #ccc;
+
+
+    }
+    .stars-outer::before{
+        content: " \f005 \f005 \f005 \f005 \f005";
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        color: #f8ce0b;
+
+
+    }
+</style>
 
 
 
-{% include 'navbar.html' %}
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6" >
@@ -28,19 +60,20 @@
             <hr>
             <b>Details</b>
             <p>{{ product.description }}</p>
-
+<div class="add">
             <form action="{{ url_for('addcart')}}" method="POST">
 <input type="hidden" name="product_id" value="{{ product.id }}">
 <button type="submit"class=" btn btn-sm btn-warning" >Add Cart</button>
 <label for="">Quantity: </label> 
 <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" >          
 </form>
+</div>
         
         </div>
     
     </div>
 
-   <div class="row">
+   <div class="row" style="margin-top: 5%;">
     <div class="col-md-5 mt-4"   >
         <img src="{{ url_for('static', filename = 'images/'+ product.image_1)}}" height="100" width="100" class="p-2" id="small_image">
         <img src="{{ url_for('static', filename = 'images/'+ product.image_2)}}" height="100" width="100"class="p-2" id="small_image">
@@ -56,19 +89,59 @@ flex-direction: row;
 align-items: center;
 justify-content: space-around;">
 
-    <div class="content"style="border: 0.2px solid black;  width: 70%; display: flex;
+    <div class="content"style=" border-radius: 2%; width: 70%; display: flex;
     flex-direction: column;
-    margin-left: 5%" >
-        <h3 class="text-center">Customer's Reviews</h3>
+    margin-left: 5%; margin-top : 5%;  padding: 2%; " >
+        <h3 class="text-center" style="color: brown;">Customer's Reviews</h3>
 
         
         <hr>
        {% if reviews %}
-       {% for rev in reviews %}
+       {% for rev in reviews.items %}
        <div class="comment" style="margin-left: 5%;">
-        <h2>{{ rev.username }}</h2>
-        <p>{{ rev.body }}</p>
-       </div>
+      
+         
+       <!-- Section: Social newsfeed v.1 -->
+       <section class="my-2">
+       
+         <!-- Grid row -->
+         <div class="row">
+       
+           <!-- Grid column -->
+           <div class="col-md-4">
+       
+             <!-- Newsfeed -->
+             <div class="mdb-feed">
+       
+               <!-- First news -->
+               <div class="news">
+       
+                 <!-- Label -->
+                
+       
+                 <!-- Excerpt -->
+                 <div class="excerpt">
+       
+                   <!-- Brief -->
+                   <div class="brief">
+                     <h5 style="color: blue;"><p class="name">{{ rev.username }}</p> </h5>
+                     <span class="date"> <h8 style="color: brown;">{{ moment(rev.timestamp).fromNow() }}</h8></span>
+                   </div>
+       
+                   <!-- Feed footer -->
+                   <div class="feed-footer mt-2">
+                    <p> Review - {{ rev.body }}</p>
+                    <p>Rating - {{ rev.rating}}</p>
+                   </div>
+                   
+       
+                 </div>
+                 <!-- Excerpt -->
+       
+               </div>
+               </div>
+</section>
+</div>
      
 {% else %}
 <p>No reviews yet!! </p>
@@ -76,9 +149,76 @@ justify-content: space-around;">
 
 
        {% endif %}
+
+
+       <div class="row">
+        <div class="col text-center">
+            {% if reviews.has_prev %}
+            <a href="{{ url_for('description',id = product.id,page = page_num) }}" class="btn btn-sm btn-outline-info mt-4">
+                Previous
+             
+              </a>
+            {% endif %}
+            {% for page_num in reviews.iter_pages(left_edge =1, right_edge=1, left_current =1,right_current =2) %}
+            {% if page_num %}
+            {% if reviews.page == page_num %}
+            
+            <a href="{{ url_for('description',id = product.id,page = page_num) }}" class="btn btn-sm btn-info mt-4">
+              {{ page_num }}
+            
+            </a>
+            {% else %}
+            <a href="{{ url_for('description',id = product.id,page = page_num) }}" class="btn btn-sm btn-outline-info mt-4">
+              {{ page_num }}
+           
+            </a>
+            {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+            
+            
+            {% endfor %}
+            {% if reviews.has_next %}
+            <a href="{{ url_for('description',id = product.id,page = page_num) }}" class="btn btn-sm btn-outline-info mt-4">
+                Next
+             
+              </a>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+
+
     </div>
     
-   <a href="{{ url_for('product_review', id = product.id)}}">Add Your Review</a>
+    <form action="#" method="POST" enctype="multipart/form-data">
+
+        
+        {{ form.hidden_tag() }}
+      <div class="form-group" style=" left: 25%; top: 17%;">
+        
+        <div class="text-center h3 text-success">Add Your Review</div>
+        {{ render_field(form.username, class="form-control") }}
+        {{ render_field(form.body, class="form-control") }}
+  
+        <label for="rating">Rating</label>
+        <input type="number" class="form-control" step="0.1" min="0" max="5"  name="rating" placeholder="Rate 1-5" value="{{ form.rating}}
+       
+        
+      
+      <p><input type=submit value="Review" class="btn btn-info mt-2"></p>
+            
+    </form>
+
+
+
+
+    
+
+
     
 
 </div>
@@ -93,7 +233,24 @@ justify-content: space-around;">
         })
     })
    
-  
+
+
+
+       
+
+
+     
+     
+   
+   
+      
+       
+       
+   
+   
+   
+       
+     
 
 </script>
 

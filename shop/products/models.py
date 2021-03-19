@@ -35,5 +35,7 @@ class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), nullable=False)
     body =db.Column(db.String(200), nullable=False)
+    rating = db.Column(db.Numeric(2, 1),default = 0)
+    timestamp = db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
 
     product_id = db.Column(db.Integer, db.ForeignKey('addproduct.id'),nullable = False)

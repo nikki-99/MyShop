@@ -3,6 +3,8 @@ from flask_wtf.file import FileAllowed, FileField, FileRequired
 from wtforms import StringField, SubmitField, IntegerField, TextAreaField, validators, DecimalField
 
 
+
+
 class Addproducts(FlaskForm):
     name = StringField('Name',[validators.DataRequired()])
     price = IntegerField('Price',[validators.DataRequired()])
@@ -19,5 +21,6 @@ class Addproducts(FlaskForm):
 class ReviewForm(FlaskForm):
     username = StringField('Name',[validators.DataRequired()])
     body = StringField('Review',[validators.DataRequired()])
+    rating = DecimalField('Rating', [validators.DataRequired()])
     submit = SubmitField('Post')
     

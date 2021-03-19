@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-{% include '_messages.html' %}
+
 {% include 'admin_navbar.html' %}
+{% include '_messages.html' %}
 <div class="conatiner mt-5 ml-3" style="margin-left: 7rem; margin-right: 7rem;">
 
     <table class="table table-sm table-condensed table-striped table-hover " style="text-align: center";>
@@ -20,7 +21,7 @@
             {% for product in products %}
           <tr>
               <td>{{ loop.index }}</td>
-              <td>{{product.name}}</td>
+              <td><a href="{{url_for('cust_review', id = product.id)}}" style="text-decoration: none; color: black;">{{product.name}}</a></td>
               <td>{{product.price}}</td>
               <td>{{product.discount}} %</td>
 

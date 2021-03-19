@@ -2,7 +2,7 @@ from flask import render_template, session, redirect, request, url_for, flash
 from shop import app, db, bcrypt
 from .forms import RegistrationForm,LoginForm
 from .models import User
-from shop.products.models import Addproduct
+from shop.products.models import Addproduct, Review
 from shop.customers.models import Order, Customer
 import json
 
@@ -98,3 +98,12 @@ def graph():
          
 
     return render_template('admin/graph.html', x=x , y=y, title = 'Statistics')
+
+
+
+
+@app.route('/cust_review/<int:id>')
+def cust_review(id):
+    product = Addproduct.query.filter_by(id = id).first()
+    reviews = Review.query.filter_by(product_id= id)
+    return render_template('admin/reviews.html', product = product, reviews = reviews, title = 'Reviews')

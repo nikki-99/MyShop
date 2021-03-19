@@ -30,36 +30,34 @@ def home():
 
 
 @app.route('/product/<int:id>', methods = ['GET', 'POST'])
-def description(id):
-    product = Addproduct.query.get_or_404(id)
-    
-    
-        
-    reviews = Review.query.filter_by(product_id= id).all()   
-
-    return render_template('products/description.html', product = product,  title = 'Description',  reviews = reviews)
-
-
-
-
-    
-@app.route('/product/<int:id>/review', methods = ['GET','POST'])
 @login_required
-def product_review(id):
+def description(id):
+    page = request.args.get('page',1,type = int)
     product = Addproduct.query.get_or_404(id)
     form = ReviewForm()
     if request.method == 'POST':
-        if form.validate_on_submit():
+        if form.validate_on_submit() :
             if form.username.data != current_user.username:
-                flash(f'Please enter your own username')
+                flash(f'Please enter your own username', 'danger')
             else:    
                 
-                review = Review(username = form.username.data, body = form.body.data, product_id = id)
+                review = Review(username = form.username.data, body = form.body.data,rating = form.rating.data, product_id = id)
                 db.session.add(review)
                 db.session.commit()
-                flash(f'Your comment has been posted!','success')
-                return redirect(url_for('description', id = id))
-    return render_template('products/product_review.html', title = 'Review', form = form) 
+                flash(f'Your review has been posted..Thank You!','success')
+                return redirect(url_for('description', id = id)) 
+               
+    
+    
+        
+    reviews = Review.query.filter_by(product_id= id).paginate(page = page, per_page=4)   
+
+    return render_template('products/description.html', product = product,  title = 'Description',  reviews = reviews, form = form)
+
+
+
+
+    
 
 
 

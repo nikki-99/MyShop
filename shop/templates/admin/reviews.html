@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+{% include '_messages.html' %}
+{% include 'admin_navbar.html' %}
+<h3 class="text-center mt-3" style="color: crimson;">{{ product.name }}</h3>
+
+
+
+
+
+
+
+<div class="conatiner"style="margin-left: 7rem; margin-right: 7rem;" >
+    <table class="table table-sm table-condensed table-hover ml-2 mt-5" style="text-align: center";>
+        <thead>
+            <th>No</th>
+            <th>Customer</th>
+            <th>Review</th>
+            <th>Rating</th>
+          <th>Date</th>
+
+        </thead>
+        <tbody>
+            {% if reviews %}          
+
+{% for rev in reviews %}
+            <tr>
+                <td>{{ loop.index }}</td>
+               
+                <td>{{ rev.username }}</td>
+ 
+<td>{{ rev.body }}</td>
+<td>{{ rev.rating}}</td>
+<td>{{ moment(rev.timestamp).format("MMMM Do, YY")}}</td>
+
+{% endfor %}
+
+            </tr>
+
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
