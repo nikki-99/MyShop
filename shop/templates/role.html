@@ -3,30 +3,132 @@
 
 <html>
     <head>
-<title>Journey</title>
+<title>Main Page</title>
     </head>
     <style>
-        *{
-            margin: 0;
-            padding: 0;
-            
-        }
-        body{
-           background-color: pink;
-        }
+      *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.hero{
+    width: 100%;
+    height: 100vh;
     
-        a:hover{
-            box-shadow: 8px 2px 3px black;
-        }
+    background-image:  url({{ url_for('static', filename = 'images/background.png')}} );
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    
+
+
+}
+a{
+    text-decoration: none;
+    color: black;
+    font-weight: 900;
+    margin: 5%;
+}
+.bubbles img{
+    width: 50px;
+    animation: bubble 7s linear infinite;
+    
+}
+.bubbles{
+    width: 100%;
+    display: flex;
+    
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 0;
+
+}
+@keyframes bubble{
+    0%{
+        transform: translateY(-1vh);
+        opacity: 0;
+    }
+    50%{
+        
+        opacity: 1;
+    }
+    70%{
+        opacity: 1;
+    }
+    100%{
+        transform: translateY(-80vh);
+        opacity: 0;
+    }
+
+}
+.bubbles img:nth-child(1){
+    animation-delay: 2s;
+}
+.bubbles img:nth-child(2){
+    animation-delay: 1s;
+}
+.bubbles img:nth-child(3){
+    animation-delay: 1.5s;
+}
+.bubbles img:nth-child(4){
+    animation-delay: 3s;
+}
+.bubbles img:nth-child(5){
+    animation-delay: 2.5s;
+}
+.bubbles img:nth-child(6){
+    animation-delay: 1.9s;
+}
+.bubbles img:nth-child(7){
+    animation-delay: 3.5s;
+}
+.bubbles img:nth-child(8){
+    animation-delay: 1.5s;
+}
+.bubbles img:nth-child(9){
+    animation-delay: 1.2s;
+}
+.bubbles img:nth-child(10){
+    animation-delay: 1s;
+}
+.bubbles img:nth-child(11){
+    animation-delay: 0.9s;
+}
+
+
+
+
+
+
+
     </style>
 </html>
 <body>
 
-<a href="{{url_for('admin')}}" class="btn btn-primary btn-success" style="position: absolute; top: 50%; left: 40%; width: 10%;">Admin</a>
-
-
-
-<a href="{{url_for('home')}}" class="btn btn-primary btn-success" style="position: absolute; top: 50%; left: 52%;">Customer</a>
+    <div class="hero">
+        <div class="part" style="
+        margin-top: 20%;">
+        <a href="{{ url_for('admin')}}" class="text-center"><h1>Admin</h1></a>
+        <a href="{{ url_for('home')}}" class="text-center"><h1>Customer</h1></a>
+    </div>
+        <div class="bubbles">
+            
+            <img src="{{ url_for('static', filename = 'images/bubble.png')}}" alt="">
+            <img src="{{ url_for('static', filename = 'images/bubble.png')}}" alt="No">
+            <img src="{{ url_for('static', filename = 'images/bubble.png')}}" alt="">
+        
+            <img src="{{ url_for('static', filename = 'images/bubble.png')}}" alt="">
+            <img src="{{ url_for('static', filename = 'images/bubble.png')}}" alt="">
+            <img src="{{ url_for('static', filename = 'images/bubble.png')}}" alt="">
+            <img src="{{ url_for('static', filename = 'images/bubble.png')}}" alt="">
+  
+            <img src="{{ url_for('static', filename = 'images/bubble.png')}}" alt="">
+            <img src="{{ url_for('static', filename = 'images/bubble.png')}}"alt="">
+            <img src="{{ url_for('static', filename = 'images/bubble.png')}}" alt="">
+        </div>
+    </div>
 </body>
 
 {% endblock %}
