@@ -3,4 +3,4 @@ from shop import app
 
 @app.route('/')
 def main():
-    return render_template('role.html')
+    return render_template('role.html' )
