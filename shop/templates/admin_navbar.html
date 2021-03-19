@@ -2,32 +2,30 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="{{ url_for('admin')}}" style="color: white;">Admin</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+        
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{ url_for('admin_shop')}}"style="color: white;">Shop</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ url_for('detail')}}"style="color: white;">Buyers</a>
+                <a class="nav-link active" aria-current="page" href="{{ url_for('detail')}}"style="color: white;"><i class="fas fa-users fa-2x" title="Buyers"></i></a>
               </li>
            
 
           </div>
           <ul class="nav justify-content-end">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{{ url_for('graph')}}" style="color: white;">Statistics</a>
+              <a class="nav-link active" aria-current="page" href="{{ url_for('graph')}}" style="color: white;"><i class="fas fa-chart-line fa-2x" title="Statistics"></i></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{{ url_for('addproduct')}}" style="color: white;">Add Product</a>
+              <a class="nav-link active" aria-current="page" href="{{ url_for('addproduct')}}" style="color: white;"><i class="fas fa-plus-circle fa-2x" title="Add Product"></i></a>
             </li>
           
             </ul>
 
            
-                <a href="{{ url_for('main')}}" class="nav-link"style="color: white;">Logout</a>
+                <a href="{{ url_for('main')}}" class="nav-link"style="color: white;"><i class="fas fa-sign-out-alt fa-2x" title="Logout"></i></a>
           
         
         </div>

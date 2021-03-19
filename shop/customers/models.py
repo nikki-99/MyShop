@@ -1,7 +1,8 @@
-from shop import db, login_manager
+from shop import db, login_manager, app
 from datetime import datetime
 from flask_login import UserMixin
 import json
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 # helps to convert dict to str..vice versa
 
@@ -23,6 +24,23 @@ class Customer(db.Model, UserMixin):
     pin = db.Column(db.String(120),  nullable=False)
     contact= db.Column(db.String(120),  nullable=False)
 
+
+
+
+
+    def get_token(self, expires_sec = 1500):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+    
+    # no self parameter 
+    @staticmethod
+    def verify_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return Customer.query.get(user_id) 
 
     def __repr__(self):
         return '<Customer %r>' % self.username 

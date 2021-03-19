@@ -3,10 +3,7 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-dark">
             <div class="container-fluid">
-            
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
+           
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
@@ -29,32 +26,34 @@
                     
                     <form class="d-flex" method="GET">
                       <input class="form-control me-2" type="search" placeholder="Search Products.." aria-label="Search" name="q">
-                      <button class="btn btn-sm btn-success" type="submit">Search</button>
+                      <button class="btn btn-sm btn-success" type="submit" style="background: none;
+                      border: none;
+                      margin-right: 5%;"><i class="fas fa-search"></i></button>
                     </form>
                
 
 
     {% if current_user.is_authenticated %}
+   
     
     <li class="nav-item">
-      <a class="nav-link active" style="color: white;" href="{{ url_for('allcart')}}" tabindex="-1">Cart ({{ session['shoppingcart']|length }})</a>
+      <a class="nav-link active" style="color: white;" href="{{ url_for('allcart')}}" tabindex="-1"><i class="fas fa-shopping-cart fa-2x" title="Cart"></i> ({{ session['shoppingcart']|length }})</a>
   </li>
 
   <li class="nav-item">
-    <a href="{{ url_for('account', name = current_user.name)}}" class="nav-link"style="color: white;">Account</a>
+    <a href="{{ url_for('account', name = current_user.name)}}" class="nav-link"style="color: white;"><i class="fas fa-user-circle fa-2x" title="Account"></i></a>
 
-  </li>
 
     <li class="nav-item">
-      <a href="{{ url_for('customer_logout')}}" class="nav-link"style="color: white;">Logout</a>
+      <a href="{{ url_for('customer_logout')}}" class="nav-link"style="color: white;"><i class="fas fa-sign-out-alt fa-2x" title="Logout"></i></a>
 
     </li>
     {% else %}
     <li class="nav-item">
-      <a href="{{ url_for('customer_registration')}}" class="nav-link"style="color: white;">Register</a>
+      <a href="{{ url_for('customer_registration')}}" class="nav-link"style="color: white;"><i class="fas fa-user-plus fa-2x" title="Register"></i></a>
     </li>
     <li class="nav-item">
-      <a href="{{ url_for('customer_login')}}" class="nav-link"style="color: white;">Login</a>
+      <a href="{{ url_for('customer_login')}}" class="nav-link"style="color: white;"><i class="fas fa-sign-in-alt fa-2x" title="Sign In"></i></a>
     </li>
     
     {% endif %}

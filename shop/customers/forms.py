@@ -42,3 +42,22 @@ class CustomerLoginForm(FlaskForm):
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+
+
+
+
+class ResetForm(FlaskForm):
+    email = StringField('Email',validators=[DataRequired(), Email()])
+    
+    submit = SubmitField('Reset')
+    def validate_email(self, email):
+        user = Customer.query.filter_by(email= email.data).first()
+        if user is None:
+            raise ValidationError('You are not a registered user. You must register first')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset')    
