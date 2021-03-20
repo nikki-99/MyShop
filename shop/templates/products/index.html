@@ -51,6 +51,8 @@
 <li class="nav-item">
   <a href="{{ url_for('customer_logout')}}" class="nav-link"style="color: white;"><i class="fas fa-sign-out-alt fa-2x" title="Logout"></i></a>
 </li>
+
+
 {% else %}
 <li class="nav-item">
 <a href="{{ url_for('customer_registration')}}" class="nav-link"style="color: white;"><i class="fas fa-user-plus fa-2x" title="Register"></i></a>
@@ -92,7 +94,7 @@
         
         {% for product in products.items %}
 
-       
+        {% if product.stock > 0 %}
         <div class="col-md-3 mt-3 ml-3" style="    width: 17%;
        ">
             <div class="card" >
@@ -119,6 +121,7 @@
                
             </div>
           </div>
+          {% endif %}
       
         {% endfor %}
         </div>

@@ -36,7 +36,10 @@ def customer_login():
             
             return redirect(url_for('home'))
         elif user is None:
-            flash(f'You are not a registered customer. Registered yourself first!', 'danger')    
+            
+            flash(f'You are not a registered customer. Registered yourself first!', 'danger') 
+            
+
         else:    
             flash(f'Login Unsuccessful. Please check email or password','danger')
             return redirect(url_for('customer_login'))
@@ -45,12 +48,13 @@ def customer_login():
 
 @app.route('/customer/logout')
 def customer_logout():
-    logout_user()
     try:
         session.pop('shoppingcart', None)
         
     except Exception as e:
         print(e)
+    logout_user()
+    
     return redirect(url_for('main'))    
 
 
@@ -195,7 +199,7 @@ def addcart():
 
 @app.route('/carts')
 def allcart():
-    if 'shoppingcart' not in session:
+    if 'shoppingcart' not in session or len(session['shoppingcart'])<=0 :
         return redirect(request.referrer) 
   
     subtotal =0
@@ -214,6 +218,7 @@ def updatecart(cart_id):
     if 'shoppingcart' not in session or len(session['shoppingcart'])<=0 :
         return redirect(url_for('home'))
     if request.method == 'POST':
+        
         quantity = request.form.get('quantity') 
         try: 
             session.modified = True
@@ -221,10 +226,14 @@ def updatecart(cart_id):
                 if int(key) == cart_id:
                     # if item['stock_1'] < quantity:
                     #     flash(f'Sorry','warning')
-                    # else:    
-                    item['quantity'] = int(quantity)
-                    flash(f'Your cart has been updated','success')
-                    return redirect(url_for('allcart'))
+                    # else:  
+                    if item['quantity'] == int(quantity):
+                        flash(f"You haven't made any changes to your cart",'danger')
+                        return redirect(url_for('allcart')) 
+                    else:    
+                        item['quantity'] = int(quantity)
+                        flash(f'Your cart has been updated','success')
+                        return redirect(url_for('allcart'))
 
 
         except Exception as e:

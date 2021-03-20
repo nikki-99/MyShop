@@ -5,7 +5,7 @@ from .forms import Addproducts, ReviewForm
 import secrets, os
 from flask_login import login_user, current_user,login_required, logout_user
 
-
+from shop.customers.models import Order
 
 
 
@@ -21,10 +21,19 @@ def home():
     else:
       
         products = Addproduct.query.filter(Addproduct.stock>0).paginate(page = page,per_page = 4)
+    order = Order.query.all()
+    # products = Addproduct.query.filter(Addproduct.stock>0).paginate(page = page,per_page = 4)
+    for product in products.items:
+        if order:
+            for ord in order:
+                for key, pro in ord.orders.items():
+                    if product.id == int(key):
+                        product.stock -= pro['quantity']
+    
     
     
 
-    return render_template('products/index.html', products = products,  title = 'Home')
+    return render_template('products/index.html', products = products,  title = 'Home', order = order)
 
 
 

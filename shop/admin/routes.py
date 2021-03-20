@@ -62,7 +62,12 @@ def admin_shop():
     page = request.args.get('page',1,type = int)
     order = Order.query.all()
     products = Addproduct.query.filter(Addproduct.stock>0).paginate(page = page,per_page = 4)
-    #  brand whose any time doesn't exist no need to show
+    for product in products.items:
+        if order:
+            for ord in order:
+                for key, pro in ord.orders.items():
+                    if product.id == int(key):
+                        product.stock -= pro['quantity']
     
 
     return render_template('admin/shop.html', products = products, order = order, title = 'Shop')
