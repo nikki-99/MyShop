@@ -8,7 +8,7 @@
 {% include 'admin_navbar.html' %}
 <div class="conatiner mt-5 ml-3" style="margin-left: 7rem; margin-right: 7rem;">
 
-    <table class="table table-sm table-condensed table-striped table-hover "style="text-align: center";>
+    <table class="table table-sm table-condensed  table-hover "style="text-align: center";>
         <thead>
             <th>No</th>
             <th>Invoice</th>
@@ -24,7 +24,7 @@
             {% if order %}
             {% for ord in order %}
           <tr>
-              <td>{{ loop.index }}</td>
+              <td><b>{{ loop.index }}</b></td>
               <td>{{ ord.invoice }}</td>
            {% for cust in customer %}
               {% if cust.id == ord.customer_id %}
@@ -40,11 +40,19 @@
        
               <td>{{ moment(ord.order_date).format("MMMM Do, YY") }}</td>
               {% for key, product in ord.orders.items():  %}
+
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
               <td>{{ product.name }}
                 </td>
               <td>{{ product.quantity }}</td>
               <td>{{ product.price }}</td>
               <td>{{ product.discount }}</td>
+            </tr>
+       
               {% endfor %}
 
               {% endfor %}

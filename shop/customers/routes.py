@@ -46,6 +46,11 @@ def customer_login():
 @app.route('/customer/logout')
 def customer_logout():
     logout_user()
+    try:
+        session.pop('shoppingcart', None)
+        
+    except Exception as e:
+        print(e)
     return redirect(url_for('main'))    
 
 

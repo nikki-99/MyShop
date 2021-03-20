@@ -24,12 +24,7 @@
                   <ul class="navbar-nav ml-auto"> 
                     
                     
-                    <form class="d-flex" method="GET">
-                      <input class="form-control me-2" type="search" placeholder="Search Products.." aria-label="Search" name="q">
-                      <button class="btn btn-sm btn-success" type="submit" style="background: none;
-                      border: none;
-                      margin-right: 5%;"><i class="fas fa-search"></i></button>
-                    </form>
+                  
                
 
 
@@ -43,10 +38,8 @@
   <li class="nav-item">
     <a href="{{ url_for('account', name = current_user.name)}}" class="nav-link"style="color: white;"><i class="fas fa-user-circle fa-2x" title="Account"></i></a>
 
-
     <li class="nav-item">
       <a href="{{ url_for('customer_logout')}}" class="nav-link"style="color: white;"><i class="fas fa-sign-out-alt fa-2x" title="Logout"></i></a>
-
     </li>
     {% else %}
     <li class="nav-item">

@@ -62,18 +62,32 @@ margin-bottom: 5%;">
             
 {% if order %}
 {% for ord in order %}
-            <tr>
-                <td>{{ loop.index }}</td>
+       
+<tr></tr>
+<tr >
+                <td><b>{{ loop.index }}</b></td>
                
                 <td>{{ ord.invoice }}</td>
+                
                 <td>{{ moment(ord.order_date).format("MMMM Do, YY") }}</td>
+
                 {% for key, product in ord.orders.items()  %}
-<td>{{ product.name }}
-  </td>
-<td>{{ product.quantity }}</td>
-<td>{{ product.price }}</td>
-<td>{{ product.discount }}</td>
-{% endfor %}
+            </tr>
+         
+<tr>
+ 
+       <td></td>
+       <td></td>
+       <td></td>
+                <td>{{ product.name }}
+                </td>
+              <td>{{ product.quantity }}</td>
+              <td>{{ product.price }}</td>
+              <td>{{ product.discount }}</td>
+        
+                {% endfor %}
+
+
 
             </tr>
 
