@@ -175,10 +175,7 @@ def addcart():
                         if int(key) == int(product_id):
                             session.modified = True
                             item['quantity'] += 1
-                            
-                            
-                            
-                    
+        
                 else:
                     session['shoppingcart'] = mergedict( session['shoppingcart'], items)
                     return redirect(request.referrer)
@@ -329,6 +326,7 @@ def send_token_for_mail(user):
     If you don't want then ignore this email.
     '''
     mail.send(msg)
+    
 
 @app.route('/reset_pass', methods = ['GET','POST'])
 def reset_request():

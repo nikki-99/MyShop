@@ -15,8 +15,14 @@ def admin():
     if 'email' not in session:
         flash(f'Login first','danger')
         return redirect(url_for('login'))
-    products = Addproduct.query.all()   
+    products = Addproduct.query.filter(Addproduct.stock>0)  
     order = Order.query.all() 
+    for product in products:
+        if order:
+            for ord in order:
+                for key, pro in ord.orders.items():
+                    if product.id == int(key):
+                        product.stock -= pro['quantity']    
   
     return render_template('admin/index.html', title = 'Admin', products = products, order = order)
 

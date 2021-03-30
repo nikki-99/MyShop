@@ -4,7 +4,7 @@
 {% include 'navbar.html' %}
 
 {% from "_formhelpers.html" import render_field %}
-{% include '_messages.html' %}
+
 <style>
     .stars-outer{
         position: relative;
@@ -40,6 +40,7 @@
 
 
 <div class="container mt-5">
+  {% include '_messages.html' %}
     <div class="row">
         <div class="col-md-6" >
             <img src="{{ url_for('static', filename = 'images/'+ product.image_1)}}"  width="400" height="350" id="big_image">
